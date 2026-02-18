@@ -23,7 +23,10 @@ const COUNTER_TEST = [
 
 export default function Testimonials() {
   return (
-    <div className="px-4 sm:px-6 lg:px-8 min-h-[800px] lg:h-[932px] bg-[url('/images/testBg.png')] bg-cover bg-center">
+    <div
+      id="testimonials"
+      className="px-4 sm:px-6 lg:px-8 min-h-[800px] lg:h-[932px] bg-[url('/images/testBg.png')] bg-cover bg-center"
+    >
       <div className="px-4 sm:px-6 lg:px-8 xl:px-[374px] py-12 sm:py-16 lg:py-20 xl:py-[140px] flex flex-col items-center justify-center gap-6 sm:gap-8 lg:gap-[60px]">
         {/* Header Section */}
         <div className="flex items-center justify-center gap-4 sm:gap-6 lg:gap-[60px] flex-col w-full">

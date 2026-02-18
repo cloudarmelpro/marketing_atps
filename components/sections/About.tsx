@@ -3,7 +3,7 @@ import TitleSection from "../TitleSection";
 
 export default function About() {
   return (
-    <div className="py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8">
+    <div id="about" className="py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8">
       <div className="relative bg-[#1b0c25] rounded-2xl overflow-hidden">
         {/* Background Elements - Visible seulement sur desktop */}
         <div className="absolute inset-0 z-0">

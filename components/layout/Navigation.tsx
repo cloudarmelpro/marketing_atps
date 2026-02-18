@@ -5,10 +5,10 @@ import Link from "next/link";
 
 const NAV_LIST = [
   { id: 1, name: "Features", link: "#" },
-  { id: 2, name: "About", link: "#" },
-  { id: 3, name: "Testimonial", link: "#" },
-  { id: 4, name: "Pricing", link: "#" },
-  { id: 5, name: "Faq", link: "#" },
+  { id: 2, name: "About", link: "/#about" },
+  { id: 3, name: "Testimonial", link: "/#testimonial" },
+  { id: 4, name: "Pricing", link: "/#pricing" },
+  { id: 5, name: "Faq", link: "/#faq" },
 ];
 
 const Navigation = () => {

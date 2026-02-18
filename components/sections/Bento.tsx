@@ -3,7 +3,7 @@ import TitleSection from "../TitleSection";
 
 export default function Bento() {
   return (
-    <div className="w-full min-h-[1664px] px-4 sm:px-6 lg:px-8 xl:px-[324px] py-12 lg:py-[200px] flex items-center justify-center">
+    <div id="bento" className="w-full min-h-[1664px] px-4 sm:px-6 lg:px-8 xl:px-[324px] py-12 lg:py-[200px] flex items-center justify-center">
       <div className="w-full max-w-[1240px]">
         <div className="flex flex-col items-center gap-8 lg:gap-[60px]">
           {/* Header Section */}
