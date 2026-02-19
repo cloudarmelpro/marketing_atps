@@ -1,13 +1,34 @@
+"use client";
+
 import Image from "next/image";
 import TitleSection from "../TitleSection";
+import { motion } from "framer-motion";
+import {
+  fadeInUpVariants,
+  bentoContainerVariants,
+  bentoCardVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 export default function Bento() {
   return (
-    <div id="bento" className="w-full min-h-[1664px] px-4 sm:px-6 lg:px-8 xl:px-[324px] py-12 lg:py-[200px] flex items-center justify-center">
+    <div
+      id="bento"
+      className="w-full min-h-[1664px] px-4 sm:px-6 lg:px-8 xl:px-[324px] py-12 lg:py-[200px] flex items-center justify-center"
+    >
       <div className="w-full max-w-[1240px]">
-        <div className="flex flex-col items-center gap-8 lg:gap-[60px]">
+        <motion.div
+          variants={bentoContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="flex flex-col items-center gap-8 lg:gap-[60px]"
+        >
           {/* Header Section */}
-          <div className="flex items-center flex-col gap-4 lg:gap-[24px] w-full lg:w-[800px]">
+          <motion.div
+            variants={fadeInUpVariants}
+            className="flex items-center flex-col gap-4 lg:gap-[24px] w-full lg:w-[800px]"
+          >
             <div className="flex items-center flex-col gap-3 lg:gap-[12px] w-full">
               <TitleSection
                 title="business & solution"
@@ -26,14 +47,20 @@ export default function Bento() {
                 processes with ease.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Bento Grid */}
-          <div className="flex flex-col gap-4 lg:gap-[24px] w-full">
+          <motion.div
+            variants={bentoContainerVariants}
+            className="flex flex-col gap-4 lg:gap-[24px] w-full"
+          >
             {/* First Row */}
             <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:gap-[24px] justify-center w-full">
               {/* Card 1 - Adaptive Learning */}
-              <div className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[496.81px] bg-white shadow-sm rounded-2xl">
+              <motion.div
+                variants={bentoCardVariants}
+                className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[496.81px] bg-white shadow-sm rounded-2xl"
+              >
                 <div className="w-full aspect-[480/354] rounded-xl overflow-hidden">
                   <Image
                     src="/images/imageAd.png"
@@ -52,10 +79,13 @@ export default function Bento() {
                     performance and adapting to new patterns
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card 2 - Smart Automation */}
-              <div className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[719px] bg-white shadow-sm rounded-2xl">
+              <motion.div
+                variants={bentoCardVariants}
+                className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[719px] bg-white shadow-sm rounded-2xl"
+              >
                 <div className="w-full aspect-[703/353] rounded-xl overflow-hidden">
                   <Image
                     src="/images/imageSm.png"
@@ -74,13 +104,16 @@ export default function Bento() {
                     operations, enhance productivity
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Second Row */}
             <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:gap-[24px] justify-center w-full">
               {/* Card 3 - Data Mapping */}
-              <div className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[806px] bg-white shadow-sm rounded-2xl">
+              <motion.div
+                variants={bentoCardVariants}
+                className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[806px] bg-white shadow-sm rounded-2xl"
+              >
                 <div className="w-full aspect-[790/353] rounded-xl overflow-hidden">
                   <Image
                     src="/images/imageData.png"
@@ -99,10 +132,13 @@ export default function Bento() {
                     data connections clearer for faster, informed decisions
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card 4 - Predictive Analytics */}
-              <div className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[410px] bg-white shadow-sm rounded-2xl">
+              <motion.div
+                variants={bentoCardVariants}
+                className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[410px] bg-white shadow-sm rounded-2xl"
+              >
                 <div className="w-full aspect-[394/355] rounded-xl overflow-hidden">
                   <Image
                     src="/images/imagePred.png"
@@ -120,10 +156,10 @@ export default function Bento() {
                     Harness advanced models to forecast trends, uncover insights
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

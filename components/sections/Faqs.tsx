@@ -1,8 +1,11 @@
 "use client";
+
 import Image from "next/image";
 import TitleSection from "../TitleSection";
 import { Plus, Minus } from "lucide-react";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { fadeInUpVariants, faqContainerVariants, faqItemVariants, viewportSettings } from "@/lib/motion";
 
 const QUESTION_FAQS = [
   {
@@ -43,7 +46,13 @@ export default function Faqs() {
     <div className="flex justify-center items-center px-4 sm:px-6 lg:px-8 xl:px-[340px] py-12 sm:py-16 lg:py-20 xl:py-[100px]">
       <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-[60px] p-4 sm:p-6 lg:p-8 xl:p-[40px] w-full max-w-[1240px] bg-white rounded-2xl">
         {/* Left Column - Static Content */}
-        <div className="w-full lg:w-[366px]">
+        <motion.div
+          variants={fadeInUpVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="w-full lg:w-[366px]"
+        >
           <div className="flex flex-col items-start gap-6 sm:gap-8 lg:gap-[40px]">
             {/* Title Section */}
             <div className="flex flex-col items-start gap-2 sm:gap-3 lg:gap-[10px] w-full">
@@ -76,14 +85,21 @@ export default function Faqs() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Column - FAQ Accordion */}
-        <div className="w-full lg:w-[733px]">
+        <motion.div
+          variants={faqContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="w-full lg:w-[733px]"
+        >
           <div className="flex flex-col items-start gap-3 sm:gap-4 lg:gap-[12px] w-full">
             {QUESTION_FAQS.map((faq, index) => (
-              <div
+              <motion.div
                 key={index}
+                variants={faqItemVariants}
                 className="w-full bg-[#F7F6F7] rounded-lg overflow-hidden transition-all duration-300"
               >
                 {/* Question Button */}
@@ -104,21 +120,25 @@ export default function Faqs() {
                 </button>
 
                 {/* Answer Panel */}
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    openIndex === index
-                      ? "max-h-96 opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="p-3 sm:p-4 lg:p-[20px] pt-0 text-sm sm:text-base lg:text-[16px] text-[#1b0c25]/80 leading-relaxed lg:leading-[26px] border-t border-gray-200">
-                    {faq.answer}
-                  </div>
-                </div>
-              </div>
+                <AnimatePresence>
+                  {openIndex === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-3 sm:p-4 lg:p-[20px] pt-0 text-sm sm:text-base lg:text-[16px] text-[#1b0c25]/80 leading-relaxed lg:leading-[26px] border-t border-gray-200">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

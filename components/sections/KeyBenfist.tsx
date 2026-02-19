@@ -1,15 +1,32 @@
+"use client";
+
 // KeyBenfist.tsx
 import React from "react";
 import TitleSection from "../TitleSection";
 import BenefistCard from "../BenefistCard";
+import { motion } from "framer-motion";
+import {
+  fadeInUpVariants,
+  benefitContainerVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 export default function KeyBenfist() {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      <div className="px-4 sm:px-6 lg:px-8 xl:px-[324px] py-12 sm:py-16 lg:py-[200px]">
+      <motion.div
+        variants={benefitContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportSettings}
+        className="px-4 sm:px-6 lg:px-8 xl:px-[324px] py-12 sm:py-16 lg:py-[200px]"
+      >
         <div className="flex items-center flex-col gap-6 sm:gap-8 lg:gap-[60px]">
           {/* Header Section */}
-          <div className="flex flex-col items-center gap-4 sm:gap-6 lg:gap-[24px] px-4 sm:px-6 lg:px-[220px]">
+          <motion.div
+            variants={fadeInUpVariants}
+            className="flex flex-col items-center gap-4 sm:gap-6 lg:gap-[24px] px-4 sm:px-6 lg:px-[220px]"
+          >
             {/* Title with badge */}
             <div className="flex flex-col items-center gap-3 sm:gap-4 lg:gap-[12px] w-full">
               <TitleSection
@@ -29,14 +46,14 @@ export default function KeyBenfist() {
                 effortlessly.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Benefits Card */}
           <div className="w-full">
             <BenefistCard />
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

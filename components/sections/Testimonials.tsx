@@ -1,7 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import TitleSection from "../TitleSection";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  fadeInUpVariants,
+  testimonialCardVariants,
+  counterVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 const COUNTER_TEST = [
   {
@@ -31,7 +40,13 @@ export default function Testimonials() {
         {/* Header Section */}
         <div className="flex items-center justify-center gap-4 sm:gap-6 lg:gap-[60px] flex-col w-full">
           {/* Title Section */}
-          <div className="flex items-center justify-center flex-col gap-3 sm:gap-4 lg:gap-[16px] w-full lg:w-[800px] px-4 lg:px-0">
+          <motion.div
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="flex items-center justify-center flex-col gap-3 sm:gap-4 lg:gap-[16px] w-full lg:w-[800px] px-4 lg:px-0"
+          >
             <TitleSection
               title="wall of love"
               className="shadow-[0_33px_13px_0_rgba(0,0,0,0.01),0_19px_11px_0_rgba(0,0,0,0.04),0_8px_8px_0_rgba(0,0,0,0.06),0_2px_5px_0_rgba(0,0,0,0.07)]"
@@ -41,14 +56,20 @@ export default function Testimonials() {
                 What they're Saying
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Main Content Container */}
           <div className="w-full max-w-[1140px] mx-auto">
             <div className="flex w-full h-auto flex-col items-center justify-center gap-6 sm:gap-8 lg:gap-[32px]">
               {/* Testimonial Carousel */}
               <div className="w-full px-4 sm:px-0">
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+                <motion.div
+                  variants={testimonialCardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewportSettings}
+                  className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6"
+                >
                   {/* Left Arrow - Hidden on mobile, visible on tablet/desktop */}
                   <div className="hidden sm:block">
                     <Button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white hover:bg-gray-100">
@@ -115,16 +136,23 @@ export default function Testimonials() {
                       <ChevronRight className="w-4 h-4 text-black" />
                     </Button>
                   </div>
-                </div>
+                </motion.div>
               </div>
 
               {/* Counter Section */}
-              <div className="flex flex-col gap-4 sm:gap-6 lg:gap-[32px] w-full">
+              <motion.div
+                variants={fadeInUpVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportSettings}
+                className="flex flex-col gap-4 sm:gap-6 lg:gap-[32px] w-full"
+              >
                 {/* Counter Stats */}
                 <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-[16px] px-4 sm:px-0">
                   {COUNTER_TEST.map((counter) => (
-                    <div
+                    <motion.div
                       key={counter.id}
+                      variants={counterVariants}
                       className="flex-1 min-w-[120px] sm:min-w-[150px] lg:w-[189.33px] flex flex-col gap-1 items-center"
                     >
                       <h1 className="text-2xl sm:text-3xl lg:text-[41px] font-medium text-[#1b0c25]">
@@ -133,7 +161,7 @@ export default function Testimonials() {
                       <p className="text-xs sm:text-sm lg:text-[15px] leading-relaxed lg:leading-[26px] text-center text-[rgba(28,12,38,0.7)]">
                         {counter.title}
                       </p>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
 
@@ -149,7 +177,7 @@ export default function Testimonials() {
                     />
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

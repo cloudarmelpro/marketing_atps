@@ -1,5 +1,11 @@
-// ProductCard.tsx
+"use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import {
+  fadeInUpVariants,
+  scaleInVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 const FEATURE_LIST_CONTAINER = [
   {
@@ -80,13 +86,21 @@ export default function ProductCard() {
   return (
     <div className="flex flex-col gap-6 sm:gap-8 lg:gap-10 w-full">
       {FEATURE_LIST_CONTAINER.map((item, index) => (
-        <div
+        <motion.div
           key={index}
+          variants={scaleInVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          transition={{
+            duration: 0.6,
+            delay: index * 0.2,
+            ease: [0.25, 0.1, 0.25, 1],
+          }}
           className="flex flex-col lg:flex-row items-center justify-between p-4 sm:p-6 lg:p-[16px] bg-white rounded-2xl shadow-[0px_1px_2px_rgba(0,0,0,0.06)] gap-6 lg:gap-8"
         >
           {/* Content Section */}
           <div className="flex flex-col gap-4 sm:gap-6 lg:gap-[32px] py-4 sm:py-6 lg:py-[92px] w-full lg:w-[576px] order-2 lg:order-1">
-            
             {/* Title & Description */}
             <div className="flex flex-col gap-3 sm:gap-4 lg:gap-[27px] w-full">
               <p className="text-2xl sm:text-3xl lg:text-[44px] font-medium leading-tight lg:leading-[52px] text-[#1b0c25]">
@@ -103,10 +117,7 @@ export default function ProductCard() {
                 <div key={feature.id} className="flex gap-3 sm:gap-4 lg:gap-[16px] items-start">
                   
                   {/* Icon Container */}
-                  <div
-                    className="flex-shrink-0 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 lg:w-[32px] lg:h-[32px] rounded-[4px] shadow-[inset_0_-1px_2px_0_rgba(156,32,218,0.15),
-                        inset_0_1px_1px_0_#fff, 0_1px_8px_0_rgba(82,44,102,0.1)] bg-[linear-gradient(180deg,#fff_0%,#efe9f5_100%)]"
-                  >
+                  <div className="shrink-0 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 lg:w-8 lg:h-8 rounded-[4px] shadow-[inset_0_-1px_2px_0_rgba(156,32,218,0.15),inset_0_1px_1px_0_#fff,0_1px_8px_0_rgba(82,44,102,0.1)] bg-[linear-gradient(180deg,#fff_0%,#efe9f5_100%)]">
                     <Image
                       src={feature.icon_feature}
                       alt={feature.title}
@@ -137,7 +148,7 @@ export default function ProductCard() {
               className="w-full h-auto object-contain"
             />
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

@@ -1,8 +1,14 @@
-// BlogSection.tsx
+"use client";
 import Link from "next/link";
 import TitleSection from "../TitleSection";
 import { Button } from "../ui/button";
 import BlogCard from "../BlogCard";
+import { motion } from "framer-motion";
+import {
+  fadeInUpVariants,
+  fadeInUpDelayedVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 export default function BlogSection() {
   return (
@@ -10,7 +16,13 @@ export default function BlogSection() {
       <div className="flex flex-col mb-[40px] px-[324px] max-lg:px-4 max-md:px-4">
         <div className="flex flex-col gap-[40px] max-lg:gap-6 max-md:gap-4">
           {/* Header avec flex column sur mobile */}
-          <div className="flex items-end justify-between max-lg:flex-col max-lg:items-start max-lg:gap-4">
+          <motion.div
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="flex items-end justify-between max-lg:flex-col max-lg:items-start max-lg:gap-4"
+          >
             {/* Titre */}
             <div className="flex flex-col items-start gap-[12px] max-lg:w-full">
               <TitleSection
@@ -25,17 +37,24 @@ export default function BlogSection() {
             </div>
 
             {/* Bouton */}
-            <div>
+            <motion.div variants={fadeInUpDelayedVariants}>
               <Link href="/blog">
                 <Button
                   variant="outline"
-                  className="w-[140px] h-[50px] text-[15px] leading-[26px] font-medium rounded-[8px] max-lg:w-[120px] max-lg:h-10"
+                  className="group w-[140px] h-[50px] text-[15px] leading-[26px] font-medium rounded-[8px] max-lg:w-[120px] max-lg:h-10 bg-white hover:bg-white"
                 >
-                  Explore All
+                  <span className="flex flex-col items-center h-[26px] overflow-hidden">
+                    <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                      Explore All
+                    </span>
+                    <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                      Explore All
+                    </span>
+                  </span>
                 </Button>
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Cartes blog */}
           <div>

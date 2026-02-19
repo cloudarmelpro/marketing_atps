@@ -1,13 +1,25 @@
-// ProductOverview.tsx
+"use client";
 import ProductCard from "../ProductCard";
 import TitleSection from "../TitleSection";
+import { motion } from "framer-motion";
+import {
+  fadeInUpVariants,
+  fadeInUpDelayedVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 export default function ProductOverview() {
   return (
     <div className="py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center gap-6 sm:gap-8 lg:gap-[60px] max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="flex flex-col items-center gap-4 sm:gap-6 lg:gap-[24px] w-full">
+        <motion.div
+          variants={fadeInUpVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="flex flex-col items-center gap-4 sm:gap-6 lg:gap-[24px] w-full"
+        >
           {/* Title with badge */}
           <div className="flex flex-col items-center gap-3 sm:gap-4 lg:gap-[12px] w-full lg:w-[800px] px-4 lg:px-0">
             <TitleSection
@@ -20,13 +32,16 @@ export default function ProductOverview() {
           </div>
 
           {/* Description */}
-          <div className="px-4 sm:px-6 lg:px-[50px] w-full lg:w-[700px]">
+          <motion.div
+            variants={fadeInUpDelayedVariants}
+            className="px-4 sm:px-6 lg:px-[50px] w-full lg:w-[700px]"
+          >
             <p className="text-sm sm:text-base lg:text-[17px] text-center leading-relaxed lg:leading-[28px] text-[#4c4c4c]">
               Discover how Fluence AI transforms raw data into actionable
               insights. Our advanced features are designed to optimize workflows
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Product Cards */}
         <ProductCard />

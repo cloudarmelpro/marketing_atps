@@ -1,8 +1,21 @@
+"use client";
 import React from "react";
 import { ButtonDemo } from "../ButtonDemo";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
 import TitleSection from "../TitleSection";
+import { motion } from "framer-motion";
+import {
+  footerContainerVariants,
+  footerCTAVariants,
+  footerLogoVariants,
+  footerLinksVariants,
+  footerSocialVariants,
+  footerBottomVariants,
+  footerLinkItemVariants,
+  footerLinksContainerVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 const ICON_LINKS = [
   {
@@ -52,9 +65,18 @@ const Footer = () => {
         <div className="absolute z-[-1px] right-[-86px] top-[590px] rounded-[603px] w-[658px] h-[548px] bg-[linear-gradient(145deg,#efe8f6_0%,#d588fb_60.83%,#ff49d4_100%)] blur-[80px] opacity-[0.4] max-lg:hidden" />
 
         {/* Contenu principal */}
-        <div className="z-10 px-[324px] py-[100px] flex flex-col items-center justify-start max-lg:px-4 max-lg:py-12">
+        <motion.div
+          variants={footerContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="z-10 px-[324px] py-[100px] flex flex-col items-center justify-start max-lg:px-4 max-lg:py-12"
+        >
           {/* Section CTA */}
-          <div className="flex flex-col gap-[32px] max-lg:gap-6 max-lg:text-center">
+          <motion.div
+            variants={footerCTAVariants}
+            className="flex flex-col gap-[32px] max-lg:gap-6 max-lg:text-center"
+          >
             <div className="flex flex-col items-start gap-[12px] justify-start max-lg:items-center">
               <TitleSection title="Join the AI Revolution" />
               <h1 className="text-[72px] font-medium leading-[76px] text-white max-lg:text-4xl max-lg:leading-tight">
@@ -62,14 +84,17 @@ const Footer = () => {
               </h1>
             </div>
             <ButtonDemo />
-          </div>
+          </motion.div>
 
           <Separator className="mt-[100px] mb-[100px] max-lg:my-12" />
 
           {/* Section milieu - devient colonne sur mobile */}
           <div className="flex items-start w-full justify-between text-white max-lg:flex-col max-lg:gap-8">
             {/* Partie gauche */}
-            <div className="flex flex-col gap-[32px] max-w-[220px] max-lg:max-w-full max-lg:items-center">
+            <motion.div
+              variants={footerLogoVariants}
+              className="flex flex-col gap-[32px] max-w-[220px] max-lg:max-w-full max-lg:items-center"
+            >
               {/* Logo + nom */}
               <div className="flex flex-col gap-[16px] max-lg:items-center">
                 <div className="flex gap-[12px] max-lg:justify-center">
@@ -86,24 +111,39 @@ const Footer = () => {
               </div>
 
               {/* Social icons */}
-              <div className="flex gap-[16px] max-lg:justify-center">
+              <motion.div
+                variants={footerLinksContainerVariants}
+                className="flex gap-[16px] max-lg:justify-center"
+              >
                 {ICON_LINKS.map((icon) => (
-                  <Image
+                  <motion.div
                     key={icon.id}
-                    src={icon.icon_src}
-                    alt={icon.label}
-                    width={40}
-                    height={40}
-                    className="max-lg:w-8 max-lg:h-8"
-                  />
+                    variants={footerSocialVariants}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Image
+                      src={icon.icon_src}
+                      alt={icon.label}
+                      width={40}
+                      height={40}
+                      className="max-lg:w-8 max-lg:h-8 cursor-pointer"
+                    />
+                  </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Partie droite - devient colonne sur mobile */}
-            <div className="flex gap-[60px] h-[266px] max-w-[397px] max-lg:flex-col max-lg:gap-8 max-lg:h-auto max-lg:max-w-full">
+            <motion.div
+              variants={footerLinksVariants}
+              className="flex gap-[60px] h-[266px] max-w-[397px] max-lg:flex-col max-lg:gap-8 max-lg:h-auto max-lg:max-w-full"
+            >
               {/* User Links */}
-              <div className="flex flex-col gap-[16px] max-lg:items-center">
+              <motion.div
+                variants={footerLinksContainerVariants}
+                className="flex flex-col gap-[16px] max-lg:items-center"
+              >
                 <div>
                   <p className="text-[15px] leading-[26px] font-medium">
                     User Link
@@ -116,39 +156,49 @@ const Footer = () => {
                       className="flex flex-col gap-[8px] max-lg:items-center"
                     >
                       {item.links.map((link) => (
-                        <a
+                        <motion.a
                           key={link.name}
+                          variants={footerLinkItemVariants}
                           href={link.href}
                           className="text-[15px] font-medium leading-[26px] opacity-[0.6] hover:opacity-100 transition-opacity max-lg:text-center"
                         >
                           {link.name}
-                        </a>
+                        </motion.a>
                       ))}
                     </div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Company Address */}
-              <div className="flex flex-col gap-[16px] max-lg:items-center">
+              <motion.div
+                variants={footerLinksContainerVariants}
+                className="flex flex-col gap-[16px] max-lg:items-center"
+              >
                 <div>
                   <p className="text-[15px] leading-[26px] font-medium">
                     Company
                   </p>
                 </div>
                 <div>
-                  <div className="flex flex-col gap-[8px]">
+                  <motion.div
+                    variants={footerLinkItemVariants}
+                    className="flex flex-col gap-[8px]"
+                  >
                     <p className="text-[15px] font-medium w-[184px] leading-[26px] opacity-[0.6] max-lg:text-center max-lg:w-full">
                       105 North 1st Street, #28, San Jose, CA 94748
                     </p>
-                  </div>
+                  </motion.div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
 
           {/* Footer bottom */}
-          <div className="border-t border-white w-full mt-[100px] max-lg:mt-12">
+          <motion.div
+            variants={footerBottomVariants}
+            className="border-t border-white w-full mt-[100px] max-lg:mt-12"
+          >
             <div className="flex items-center justify-between w-full mt-[24px] text-white max-lg:flex-col max-lg:gap-4 max-lg:text-center">
               <p className="text-[15px] leading-[26px] max-lg:text-sm">
                 © 2025 Design & Developed by Amani
@@ -157,8 +207,8 @@ const Footer = () => {
                 Privacy Policy
               </p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

@@ -1,6 +1,15 @@
+"use client";
+
 import { ButtonDemoVarient } from "../ButtonDemo";
 import TitleSection from "../TitleSection";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import {
+  fadeInUpVariants,
+  workContainerVariants,
+  workStepVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 const LIST_WORK = [
   {
@@ -29,11 +38,20 @@ export default function Work() {
     <>
       {/* J'ai uniquement AJOUTÉ des classes responsive, rien supprimé */}
       <div className="flex flex-row justify-center items-start px-[324px] py-[200px] h-[1299px] px-[16px] max-lg:px-4 max-lg:py-12 max-lg:h-auto">
-        <div className="flex flex-col gap-[24px] items-start w-[1240px] h-[999px] max-lg:w-full max-lg:h-auto">
+        <motion.div
+          variants={workContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="flex flex-col gap-[24px] items-start w-[1240px] h-[999px] max-lg:w-full max-lg:h-auto"
+        >
           {/* Première ligne - AJOUT: stack sur tablette/mobile */}
           <div className="flex flex-row items-start gap-[24px] w-[1240px] h-[532px] max-lg:flex-col max-lg:w-full max-lg:h-auto">
             {/* Carte gauche - AJOUT: largeur responsive */}
-            <div className="w-[752px] h-[532px] max-lg:w-full max-lg:h-auto">
+            <motion.div
+              variants={fadeInUpVariants}
+              className="w-[752px] h-[532px] max-lg:w-full max-lg:h-auto"
+            >
               <div className="flex flex-col p-[40px] gap-[24px] w-[752px] h-[532px] rounded-[16px] bg-white shadow-sm max-lg:w-full max-lg:h-auto max-lg:p-6">
                 {/* Zone texte - AJOUT: largeur responsive */}
                 <div className="flex flex-col items-start gap-[12px] w-[672px] h-[160px] max-lg:w-full max-lg:h-auto">
@@ -52,17 +70,20 @@ export default function Work() {
                 {/* AJOUT: texte responsive */}
                 <div>
                   <p className="font-normal text-[17px] text-[#1b0c25] leading-[28px] max-lg:text-base">
-                    Get started quickly and effortlessly with Fluence AI’s
+                    Get started quickly and effortlessly with Fluence AI's
                     streamlined 3-step process designed to optimize your data
                     workflow.
                   </p>
                 </div>
                 <ButtonDemoVarient />
               </div>
-            </div>
+            </motion.div>
 
             {/* Carte droite image - AJOUT: largeur responsive */}
-            <div className="flex flex-col items-center p-[8px] w-[463px] h-[532px] bg-white shadow-sm rounded-[16px] max-lg:w-full max-lg:h-auto">
+            <motion.div
+              variants={fadeInUpVariants}
+              className="flex flex-col items-center p-[8px] w-[463px] h-[532px] bg-white shadow-sm rounded-[16px] max-lg:w-full max-lg:h-auto"
+            >
               <Image
                 src="/images/imageAI.png"
                 alt="Work illustration"
@@ -70,14 +91,15 @@ export default function Work() {
                 height={516}
                 className="max-lg:w-full max-lg:h-auto"
               />
-            </div>
+            </motion.div>
           </div>
 
           {/* Deuxième ligne - 3 cartes - AJOUT: grid responsive au lieu de flex row */}
           <div className="flex flex-row items-start gap-[24px] w-[1239px] h-[443px] max-lg:grid max-lg:grid-cols-2 max-lg:w-full max-lg:h-auto max-md:grid-cols-1">
             {LIST_WORK.map((item) => (
-              <div
+              <motion.div
                 key={item.id}
+                variants={workStepVariants}
                 className="flex flex-col items-center gap-[30px] p-[8px] w-[397px] h-[443px] rounded-[16px] bg-white shadow-sm max-lg:w-full max-lg:h-auto"
               >
                 <div className="w-[381px] h-[278px] rounded-[12px] max-lg:w-full max-lg:h-auto">
@@ -98,10 +120,10 @@ export default function Work() {
                     {item.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );

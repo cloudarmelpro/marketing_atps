@@ -1,5 +1,9 @@
+"use client";
+
 import React from "react";
 import TitleSection from "../TitleSection";
+import { motion } from "framer-motion";
+import { fadeInUpVariants, viewportSettings } from "@/lib/motion";
 
 export default function About() {
   return (
@@ -18,7 +22,13 @@ export default function About() {
         {/* Content Container - Padding responsive */}
         <div className="relative z-10 flex flex-col items-center lg:items-start justify-center px-6 sm:px-8 lg:px-16 xl:px-[544px] py-16 sm:py-20 lg:py-32 xl:py-[380px]">
           {/* Text Container */}
-          <div className="flex flex-col items-center lg:items-start gap-4 sm:gap-5 lg:gap-[16px] max-w-4xl lg:max-w-none">
+          <motion.div
+            variants={fadeInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="flex flex-col items-center lg:items-start gap-4 sm:gap-5 lg:gap-[16px] max-w-4xl lg:max-w-none"
+          >
             {/* About Badge */}
             <TitleSection title="About" />
 
@@ -28,7 +38,7 @@ export default function About() {
               solutions. With a focus on clean design, it helps brands engage
               and convert.
             </h2>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

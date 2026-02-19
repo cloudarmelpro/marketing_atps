@@ -1,6 +1,11 @@
-// BlogCard.tsx
+"use client";
 import Image from "next/image";
 import TitleSection from "./TitleSection";
+import { motion } from "framer-motion";
+import {
+  scaleInVariants,
+  viewportSettings,
+} from "@/lib/motion";
 
 const CARD_BLOG = [
   {
@@ -29,9 +34,18 @@ const CARD_BLOG = [
 export default function BlogCard() {
   return (
     <div className="flex justify-between max-lg:grid max-lg:grid-cols-2 max-md:grid-cols-1 max-lg:gap-4">
-      {CARD_BLOG.map((blog) => (
-        <div
+      {CARD_BLOG.map((blog, index) => (
+        <motion.div
           key={blog.id}
+          variants={scaleInVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          transition={{
+            duration: 0.6,
+            delay: index * 0.15,
+            ease: [0.25, 0.1, 0.25, 1],
+          }}
           className="w-[400px] h-[437px] rounded-[16px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] max-lg:w-full max-lg:h-auto"
         >
           <div className="flex flex-col items-center py-[8px] gap-[24px] max-lg:gap-4">
@@ -64,7 +78,7 @@ export default function BlogCard() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

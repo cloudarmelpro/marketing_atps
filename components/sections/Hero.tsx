@@ -1,11 +1,24 @@
+"use client";
+
 import React from "react";
 import { ButtonDemoBlur } from "../ButtonDemo";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { ChevronDown, Globe } from "lucide-react";
 import { Input } from "../ui/input";
+import { motion } from "framer-motion";
+import {
+  heroBadgeVariants,
+  heroTitleWordVariants,
+  heroDescriptionVariants,
+  heroButtonVariants,
+  heroCardVariants,
+} from "@/lib/motion";
 
 export default function Hero() {
+  // Split title into words for animation
+  const titleWords = ["The", "AI-powered", "Customer", "Service", "Platform"];
+
   return (
     <div className="w-full p-4 sm:p-6 lg:p-4">
       <div className="min-h-[800px] lg:h-[1236px] bg-[url('/images/bgHero.png')] rounded-2xl overflow-hidden bg-cover bg-center">
@@ -16,45 +29,106 @@ export default function Hero() {
               <div className="flex flex-col items-start gap-4 lg:gap-[24px]">
                 <div className="flex flex-col items-start w-full lg:w-[940px] gap-3 lg:gap-[12px]">
                   {/* Badge */}
-                  <div className="w-[180px] sm:w-[202px] h-6 sm:h-7 lg:h-[28px] flex items-center justify-center rounded-full backdrop-blur-[6px] bg-white/20 shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_4px_4px_rgba(255,255,255,0.3)]">
+                  <motion.div
+                    variants={heroBadgeVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="w-[180px] sm:w-[202px] h-6 sm:h-7 lg:h-[28px] flex items-center justify-center rounded-full backdrop-blur-[6px] bg-white/20 shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_4px_4px_rgba(255,255,255,0.3)]"
+                  >
                     <p className="uppercase text-[11px] sm:text-[13px] leading-[14px] sm:leading-[16px] text-[#1b0c25] ml-6 sm:ml-9 lg:ml-[36px] font-medium truncate px-2">
                       business & solution
                     </p>
-                  </div>
+                  </motion.div>
 
                   {/* Title */}
-                  <h1 className="text-4xl sm:text-5xl lg:text-[76px] leading-tight lg:leading-[76px] text-[#1b0c25] font-medium">
-                    The AI-powered Customer Service Platform
-                  </h1>
+                  <motion.h1
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="text-4xl sm:text-5xl lg:text-[76px] leading-tight lg:leading-[76px] text-[#1b0c25] font-medium"
+                  >
+                    {titleWords.map((word, index) => (
+                      <motion.span
+                        key={index}
+                        variants={heroTitleWordVariants}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{
+                          duration: 0.8,
+                          delay: 0.3 + index * 0.1,
+                          ease: [0.25, 0.1, 0.25, 1],
+                        }}
+                        className="inline-block mr-[0.3em]"
+                      >
+                        {word}
+                      </motion.span>
+                    ))}
+                  </motion.h1>
                 </div>
 
                 {/* Description */}
-                <div className="w-full lg:w-[700px]">
+                <motion.div
+                  variants={heroDescriptionVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="w-full lg:w-[700px]"
+                >
                   <p className="text-base sm:text-lg lg:text-[18px] leading-relaxed lg:leading-[28px] font-normal text-[#1b0c25]">
                     Fluence AI helps you connect, manage, and optimize your AI
                     tools effortlessly. Unlock powerful insights and automate
                     complex processes with ease.
                   </p>
-                </div>
+                </motion.div>
               </div>
 
               {/* CTA Button */}
-              <div>
+              <motion.div
+                variants={heroButtonVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 <ButtonDemoBlur />
-              </div>
+              </motion.div>
             </div>
           </div>
 
           {/* Hero Card */}
-          <div className="flex items-center justify-center w-full lg:w-[1240px] mx-auto min-h-[500px] lg:h-[654px] border border-white relative rounded-tl-[20px] sm:rounded-tl-[30px] lg:rounded-tl-[40px] rounded-tr-[20px] sm:rounded-tr-[30px] lg:rounded-tr-[40px] backdrop-blur-[10px] bg-[linear-gradient(180deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.6)_100%)]">
+          <motion.div
+            variants={heroCardVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex items-center justify-center w-full lg:w-[1240px] mx-auto min-h-[500px] lg:h-[654px] border border-white relative rounded-tl-[20px] sm:rounded-tl-[30px] lg:rounded-tl-[40px] rounded-tr-[20px] sm:rounded-tr-[30px] lg:rounded-tr-[40px] backdrop-blur-[10px] bg-[linear-gradient(180deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.6)_100%)]"
+          >
             {/* Decorative Elements - Hidden on mobile/tablet */}
-            <div className="hidden lg:block absolute w-[209px] h-[210px] bg-[url('/images/scare1.png')] top-[37.98px] right-[79px]" />
-            <div className="hidden lg:block absolute w-[159px] h-[138px] bg-[url('/images/scare2.png')] top-[311.98px] left-[135px]" />
+            <motion.div
+              className="hidden lg:block absolute w-[209px] h-[210px] bg-[url('/images/scare1.png')] top-[37.98px] right-[79px]"
+              animate={{ y: [0, -8, 0], rotate: [0, 1, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="hidden lg:block absolute w-[159px] h-[138px] bg-[url('/images/scare2.png')] top-[311.98px] left-[135px]"
+              animate={{ y: [0, 6, 0], x: [0, -4, 0] }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.5,
+              }}
+            />
 
             {/* Content Container */}
-            <div className="relative w-full lg:w-[1140px] h-full lg:h-[652px] px-4 sm:px-6 lg:px-[50px] flex items-center justify-center">
+            <div className="relative z-10 w-full lg:w-[1140px] h-full lg:h-[652px] px-4 sm:px-6 lg:px-[50px] flex items-center justify-center">
               {/* Background Pattern - Adjusted for mobile */}
-              <div className="absolute inset-0 w-full h-full bg-[url('/images/bgCha.png')] bottom-0 bg-cover bg-center opacity-50 lg:opacity-100" />
+              <motion.div
+                className="absolute inset-0 w-full h-full bg-[url('/images/bgCha.png')] bottom-0 bg-cover bg-center opacity-50 lg:opacity-100"
+                animate={{ scale: [1, 1.02, 1] }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                }}
+              />
 
               {/* Main Content */}
               <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 lg:gap-[30px] px-4 sm:px-8 lg:px-[300px] w-full">
@@ -92,14 +166,35 @@ export default function Hero() {
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-3 sm:gap-4">
                       <div className="flex flex-wrap gap-2 sm:gap-[8px] items-center">
-                        <Button className="text-[#1b0c26] text-[11px] sm:text-[12px] leading-[14px] font-medium px-3 sm:px-4 py-1.5 sm:py-2 h-auto sm:h-[30px] rounded-[83px] bg-white shadow-sm border border-[#f3e9fa] whitespace-nowrap">
-                          Create Workflow
+                        <Button className="group text-[#1b0c26] text-[11px] sm:text-[12px] leading-[14px] font-medium px-3 sm:px-4 py-1.5 sm:py-2 h-auto sm:h-[30px] rounded-[83px] bg-white hover:bg-white shadow-sm border border-[#f3e9fa] whitespace-nowrap">
+                          <span className="flex flex-col items-center h-[14px] overflow-hidden">
+                            <span className="block h-[14px] leading-[14px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                              Create Workflow
+                            </span>
+                            <span className="block h-[14px] leading-[14px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                              Create Workflow
+                            </span>
+                          </span>
                         </Button>
-                        <Button className="text-[#1b0c26] text-[11px] sm:text-[12px] leading-[14px] font-medium px-3 sm:px-4 py-1.5 sm:py-2 h-auto sm:h-[30px] rounded-[83px] bg-white shadow-sm border border-[#f3e9fa] whitespace-nowrap">
-                          Setup Bot
+                        <Button className="group text-[#1b0c26] text-[11px] sm:text-[12px] leading-[14px] font-medium px-3 sm:px-4 py-1.5 sm:py-2 h-auto sm:h-[30px] rounded-[83px] bg-white hover:bg-white shadow-sm border border-[#f3e9fa] whitespace-nowrap">
+                          <span className="flex flex-col items-center h-[14px] overflow-hidden">
+                            <span className="block h-[14px] leading-[14px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                              Setup Bot
+                            </span>
+                            <span className="block h-[14px] leading-[14px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                              Setup Bot
+                            </span>
+                          </span>
                         </Button>
-                        <Button className="text-[#1b0c26] text-[11px] sm:text-[12px] leading-[14px] font-medium px-3 sm:px-4 py-1.5 sm:py-2 h-auto sm:h-[30px] rounded-[83px] bg-white shadow-sm border border-[#f3e9fa] whitespace-nowrap">
-                          Schedule Message
+                        <Button className="group text-[#1b0c26] text-[11px] sm:text-[12px] leading-[14px] font-medium px-3 sm:px-4 py-1.5 sm:py-2 h-auto sm:h-[30px] rounded-[83px] bg-white hover:bg-white shadow-sm border border-[#f3e9fa] whitespace-nowrap">
+                          <span className="flex flex-col items-center h-[14px] overflow-hidden">
+                            <span className="block h-[14px] leading-[14px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                              Schedule Message
+                            </span>
+                            <span className="block h-[14px] leading-[14px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                              Schedule Message
+                            </span>
+                          </span>
                         </Button>
                       </div>
 
@@ -120,7 +215,7 @@ export default function Hero() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
