@@ -224,41 +224,43 @@ const Navigation = () => {
                 ))}
               </motion.div>
               <motion.div variants={navigationButtonVariants}>
-                <Button
-                  className="group font-medium rounded-[8px] p-[8px] backdrop-blur-[6px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)] transition-all duration-300"
-                  style={{
-                    fontSize: isScrolled
-                      ? isTablet
-                        ? "12px"
-                        : "14px"
-                      : isTablet
-                        ? "13px"
-                        : "16px",
-                    width: isScrolled
-                      ? isTablet
-                        ? "80px"
-                        : "100px"
-                      : isTablet
-                        ? "90px"
-                        : "120px",
-                    height: isScrolled
-                      ? isTablet
-                        ? "32px"
-                        : "36px"
-                      : isTablet
-                        ? "34px"
-                        : "40px",
-                  }}
-                >
-                  <span className="flex flex-col items-center h-[26px] overflow-hidden">
-                    <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                      Contact
+                <Link href="/Contact">
+                  <Button
+                    className="group font-medium rounded-[8px] p-[8px] backdrop-blur-[6px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)] transition-all duration-300"
+                    style={{
+                      fontSize: isScrolled
+                        ? isTablet
+                          ? "12px"
+                          : "14px"
+                        : isTablet
+                          ? "13px"
+                          : "16px",
+                      width: isScrolled
+                        ? isTablet
+                          ? "80px"
+                          : "100px"
+                        : isTablet
+                          ? "90px"
+                          : "120px",
+                      height: isScrolled
+                        ? isTablet
+                          ? "32px"
+                          : "36px"
+                        : isTablet
+                          ? "34px"
+                          : "40px",
+                    }}
+                  >
+                    <span className="flex flex-col items-center h-[26px] overflow-hidden">
+                      <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                        Contact
+                      </span>
+                      <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                        Contact
+                      </span>
                     </span>
-                    <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                      Contact
-                    </span>
-                  </span>
-                </Button>
+                  </Button>
+                </Link>
               </motion.div>
             </motion.div>
           )}
@@ -356,16 +358,18 @@ const Navigation = () => {
 
               {/* Contact Button */}
               <motion.div variants={mobileMenuItemVariants}>
-                <Button className="group text-[15px] sm:text-[16px] font-medium w-[130px] sm:w-[140px] h-[42px] sm:h-[44px] rounded-[10px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)]">
-                  <span className="flex flex-col items-center h-[26px] overflow-hidden">
-                    <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                      Contact
+                <Link href="/contact">
+                  <Button className="group text-[15px] sm:text-[16px] font-medium w-[130px] sm:w-[140px] h-[42px] sm:h-[44px] rounded-[10px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)]">
+                    <span className="flex flex-col items-center h-[26px] overflow-hidden">
+                      <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                        Contact
+                      </span>
+                      <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                        Contact
+                      </span>
                     </span>
-                    <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                      Contact
-                    </span>
-                  </span>
-                </Button>
+                  </Button>
+                </Link>
               </motion.div>
             </motion.div>
           </motion.div>
