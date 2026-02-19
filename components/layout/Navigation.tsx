@@ -125,7 +125,7 @@ const Navigation = () => {
             ? "rgba(255, 255, 255, 0.9)"
             : "var(--color-white--100)",
           boxShadow: isScrolled ? "0px 2px 6px rgba(0, 0, 0, 0.04)" : "none",
-          border: isScrolled ? "none" : "1px solid white",
+          border: isScrolled ? "none" : "1px solid rgba(255, 255, 255, 0.4)",
         }}
       >
         <div
@@ -137,13 +137,13 @@ const Navigation = () => {
           {/* Logo */}
           <motion.div
             variants={navigationLogoVariants}
-            className="flex items-center transition-all duration-300 flex-shrink-0"
+            className="flex items-center transition-all duration-300 shrink-0"
             style={{
               gap: logoSize.gap,
             }}
           >
             <div
-              className="rounded-[6px] bg-[#1B0C25] flex items-center justify-center transition-all duration-300 flex-shrink-0"
+              className="rounded-[6px] bg-[#1B0C25] flex items-center justify-center transition-all duration-300 shrink-0"
               style={{
                 height: logoSize.box,
                 width: logoSize.box,
@@ -179,7 +179,7 @@ const Navigation = () => {
               animate="visible"
               className={`${
                 isTablet ? "hidden lg:flex" : "flex"
-              } items-center transition-all duration-300 flex-shrink-0`}
+              } items-center transition-all duration-300 shrink-0`}
               style={{
                 gap: isScrolled
                   ? isTablet
@@ -290,7 +290,7 @@ const Navigation = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[200]"
+            className="fixed inset-0 z-200"
             style={{
               background: "rgba(200,180,220,0.25)",
               backdropFilter: "blur(4px)",
