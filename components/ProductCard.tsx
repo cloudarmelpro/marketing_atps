@@ -126,18 +126,18 @@ function Card({
   return (
     <div
       ref={container}
-      className="h-screen flex items-center justify-center sticky top-0 w-full"
+      className="h-[80vh] flex items-center justify-center sticky top-0 w-full"
       style={{ zIndex: index }}
     >
       <motion.div
         style={{
           scale,
-          top: `calc(10% + ${index * 25}px)`,
+          top: `calc(10% + ${index * 10}px)`,
         }}
-        className="relative flex flex-col lg:flex-row items-center justify-between p-4 sm:p-6 lg:p-[48px] bg-white rounded-3xl shadow-[0px_4px_30px_rgba(0,0,0,0.06)] gap-6 lg:gap-12 w-full max-w-[1240px] border border-gray-100"
+        className="relative flex flex-col lg:flex-row items-center justify-between p-[16px] bg-white rounded-3xl shadow-[0px_4px_30px_rgba(0,0,0,0.06)] gap-6 lg:gap-12 w-full max-w-[1240px] h-[526px] border border-gray-100"
       >
         {/* Content Section */}
-        <div className="flex flex-col gap-4 sm:gap-6 lg:gap-[32px] py-4 sm:py-6 lg:py-8 w-full lg:w-[1024px] order-2 lg:order-1">
+        <div className="flex flex-col gap-4 sm:gap-6 lg:gap-[32px] py-4 sm:py-6 lg:py-8 w-full lg:w-[1024px] order-2 lg:order-1 pl-[44px]">
           {/* Title & Description */}
           <div className="flex flex-col gap-3 sm:gap-4 lg:gap-[27px] w-full">
             <h2 className="text-2xl sm:text-3xl lg:text-[44px] font-medium leading-tight lg:leading-[52px] text-[#1b0c25]">
@@ -179,11 +179,12 @@ function Card({
 
         {/* Image Section */}
         <div className="w-full lg:w-[600px] h-auto order-1 lg:order-2 flex justify-center">
-          <div className="relative w-full aspect-[528/494] max-w-[500px]">
+          <div className="relative w-full h-[494px] aspect-[528/494] max-w-[528px]">
             <Image
               src={item.image}
               alt={item.title}
-              fill
+              width={528}
+              height={494}
               className="object-contain"
             />
           </div>
