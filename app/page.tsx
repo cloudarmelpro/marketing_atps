@@ -18,8 +18,8 @@ const HomePage = () => {
       <Hero />
       <Bento />
       <ProductOverview />
-      <KeyBenfist />
       <About />
+      <KeyBenfist />
       <Testimonials />
       <Work />
       <Pricing />

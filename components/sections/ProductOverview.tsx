@@ -11,7 +11,7 @@ import {
 export default function ProductOverview() {
   return (
     <div className="py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col items-center gap-6 sm:gap-8 lg:gap-[60px] max-w-7xl mx-auto">
+      <div className="flex flex-col items-center max-w-7xl mx-auto">
         {/* Header Section */}
         <motion.div
           variants={fadeInUpVariants}

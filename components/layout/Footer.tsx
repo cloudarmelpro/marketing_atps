@@ -58,7 +58,7 @@ const LIST_ITEMS = [
 
 const Footer = () => {
   return (
-    <div className="px-[16px]">
+    <div className="px-[16px] pb-[16px]">
       <div className="relative bg-[#1B0C25] rounded-[16px] overflow-hidden">
         {/* Gradients - cachés sur mobile/tablette */}
         <div className="absolute z-[-1px] left-[-246px] top-[-186px] rounded-[603px] w-[658px] h-[548px] bg-[linear-gradient(148deg,#80a9fc_0%,#d37bff_31.09%,#fcab83_70.46%,#ff49d4_100%)] blur-[80px] opacity-[0.4] max-lg:hidden" />
