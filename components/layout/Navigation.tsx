@@ -15,9 +15,9 @@ import {
 } from "@/lib/motion";
 
 const NAV_LIST = [
-  { id: 1, name: "Features", link: "/" },
+  { id: 1, name: "Features", link: "/#bento" },
   { id: 2, name: "About", link: "/#about" },
-  { id: 3, name: "Testimonial", link: "/#testimonial" },
+  { id: 3, name: "Testimonial", link: "/#testimonials" },
   { id: 4, name: "Pricing", link: "/#pricing" },
   { id: 5, name: "Faq", link: "/#faq" },
   { id: 6, name: "Blog", link: "/blog" },
@@ -54,16 +54,17 @@ const Navigation = () => {
   }, []);
 
   // Calculer les valeurs en fonction du scroll et de la taille d'écran
+  // Design compact par défaut, encore plus compact au scroll
   const getContainerHeight = () => {
-    if (isMobile) return isScrolled ? "56px" : "80px";
-    if (isTablet) return isScrolled ? "60px" : "96px";
-    return isScrolled ? "68px" : "112px";
+    if (isMobile) return isScrolled ? "56px" : "72px";
+    if (isTablet) return isScrolled ? "60px" : "78px";
+    return isScrolled ? "68px" : "88px";
   };
 
   const getContainerPadding = () => {
-    if (isMobile) return isScrolled ? "4px" : "16px";
-    if (isTablet) return isScrolled ? "6px" : "20px";
-    return isScrolled ? "8px" : "24px";
+    if (isMobile) return isScrolled ? "4px" : "8px";
+    if (isTablet) return isScrolled ? "6px" : "10px";
+    return isScrolled ? "8px" : "12px";
   };
 
   const getNavWidth = () => {
@@ -74,33 +75,33 @@ const Navigation = () => {
 
   const getNavHeight = () => {
     if (isMobile) return isScrolled ? "48px" : "56px";
-    if (isTablet) return isScrolled ? "48px" : "60px";
+    if (isTablet) return isScrolled ? "48px" : "58px";
     return isScrolled ? "52px" : "64px";
   };
 
   const getNavPadding = () => {
-    if (isMobile) return isScrolled ? "6px" : "10px";
-    if (isTablet) return isScrolled ? "6px" : "10px";
-    return isScrolled ? "8px" : "12px";
+    if (isMobile) return isScrolled ? "4px" : "8px";
+    if (isTablet) return isScrolled ? "4px" : "8px";
+    return isScrolled ? "6px" : "10px";
   };
 
   const getLogoSize = () => {
     if (isMobile)
       return {
-        box: isScrolled ? "28px" : "32px",
-        text: isScrolled ? "18px" : "20px",
+        box: isScrolled ? "26px" : "30px",
+        text: isScrolled ? "16px" : "18px",
         gap: isScrolled ? "6px" : "8px",
       };
     if (isTablet)
       return {
-        box: isScrolled ? "28px" : "36px",
-        text: isScrolled ? "18px" : "22px",
-        gap: isScrolled ? "6px" : "10px",
+        box: isScrolled ? "26px" : "30px",
+        text: isScrolled ? "16px" : "18px",
+        gap: isScrolled ? "6px" : "8px",
       };
     return {
-      box: isScrolled ? "32px" : "40px",
-      text: isScrolled ? "20px" : "26px",
-      gap: isScrolled ? "8px" : "14px",
+      box: isScrolled ? "28px" : "32px",
+      text: isScrolled ? "18px" : "20px",
+      gap: isScrolled ? "6px" : "10px",
     };
   };
 
@@ -125,11 +126,9 @@ const Navigation = () => {
             width: getNavWidth(),
             height: getNavHeight(),
             padding: getNavPadding(),
-            background: isScrolled
-              ? "rgba(255, 255, 255, 0.9)"
-              : "var(--color-white--100)",
-            boxShadow: isScrolled ? "0px 2px 6px rgba(0, 0, 0, 0.04)" : "none",
-            border: isScrolled ? "none" : "1px solid rgba(27, 12, 37, 0.2)",
+            background: "rgba(255, 255, 255, 0.95)",
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.06)",
+            border: "none",
           }}
         >
           <div
@@ -139,41 +138,43 @@ const Navigation = () => {
             }}
           >
             {/* Logo */}
-            <motion.div
-              variants={navigationLogoVariants}
-              className="flex items-center transition-all duration-300 shrink-0"
-              style={{
-                gap: logoSize.gap,
-              }}
-            >
-              <div
-                className="rounded-[6px] bg-[#1B0C25] flex items-center justify-center transition-all duration-300 shrink-0"
+            <Link href='/'>
+              <motion.div
+                variants={navigationLogoVariants}
+                className="flex items-center transition-all duration-300 shrink-0"
                 style={{
-                  height: logoSize.box,
-                  width: logoSize.box,
+                  gap: logoSize.gap,
                 }}
               >
-                {isMobile && (
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-                    <path
-                      d="M4 4L16 16M16 4L4 16"
-                      stroke="white"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                )}
-              </div>
-              <p
-                className="font-medium text-[#1b0c25] transition-all duration-300 whitespace-nowrap"
-                style={{
-                  fontSize: logoSize.text,
-                  lineHeight: logoSize.text,
-                }}
-              >
-                Fluence AI
-              </p>
-            </motion.div>
+                <div
+                  className="rounded-[6px] bg-[#1B0C25] flex items-center justify-center transition-all duration-300 shrink-0"
+                  style={{
+                    height: logoSize.box,
+                    width: logoSize.box,
+                  }}
+                >
+                  {isMobile && (
+                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                      <path
+                        d="M4 4L16 16M16 4L4 16"
+                        stroke="white"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <p
+                  className="font-medium text-[#1b0c25] transition-all duration-300 whitespace-nowrap"
+                  style={{
+                    fontSize: logoSize.text,
+                    lineHeight: logoSize.text,
+                  }}
+                >
+                  Fluence AI
+                </p>
+              </motion.div>
+            </Link>
 
             {/* Desktop Nav - Caché sur mobile/tablet */}
             {!isMobile && (
@@ -187,11 +188,11 @@ const Navigation = () => {
                 style={{
                   gap: isScrolled
                     ? isTablet
-                      ? "16px"
-                      : "24px"
+                      ? "12px"
+                      : "18px"
                     : isTablet
-                      ? "24px"
-                      : "40px",
+                      ? "16px"
+                      : "24px",
                 }}
               >
                 <motion.div
@@ -200,26 +201,26 @@ const Navigation = () => {
                   style={{
                     gap: isScrolled
                       ? isTablet
-                        ? "8px"
-                        : "12px"
+                        ? "6px"
+                        : "10px"
                       : isTablet
-                        ? "12px"
-                        : "20px",
+                        ? "10px"
+                        : "16px",
                   }}
                 >
                   {NAV_LIST.map((item) => (
                     <motion.div key={item.id} variants={navigationLinkVariants}>
                       <Link
                         href={item.link}
-                        className="font-medium text-[#1B0C25] opacity-[0.5] hover:text-[#1B0C25]/80 transition-all duration-300 whitespace-nowrap"
+                        className="font-medium text-[#1B0C25] opacity-[0.5] hover:opacity-80 transition-all duration-300 whitespace-nowrap"
                         style={{
                           fontSize: isScrolled
                             ? isTablet
-                              ? "12px"
-                              : "13px"
+                              ? "11px"
+                              : "12px"
                             : isTablet
-                              ? "13px"
-                              : "15px",
+                              ? "12px"
+                              : "14px",
                         }}
                       >
                         {item.name}
@@ -230,36 +231,36 @@ const Navigation = () => {
                 <motion.div variants={navigationButtonVariants}>
                   <Link href="/contact">
                     <Button
-                      className="group font-medium rounded-[8px] p-[8px] backdrop-blur-[6px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)] transition-all duration-300"
+                      className="group font-medium rounded-[8px] p-[6px] backdrop-blur-[6px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)] transition-all duration-300"
                       style={{
                         fontSize: isScrolled
                           ? isTablet
-                            ? "12px"
-                            : "14px"
+                            ? "11px"
+                            : "12px"
                           : isTablet
-                            ? "13px"
-                            : "16px",
+                            ? "12px"
+                            : "14px",
                         width: isScrolled
                           ? isTablet
-                            ? "80px"
-                            : "100px"
+                            ? "70px"
+                            : "85px"
                           : isTablet
-                            ? "90px"
-                            : "120px",
+                            ? "80px"
+                            : "100px",
                         height: isScrolled
                           ? isTablet
-                            ? "32px"
-                            : "36px"
+                            ? "28px"
+                            : "32px"
                           : isTablet
-                            ? "34px"
-                            : "40px",
+                            ? "30px"
+                            : "36px",
                       }}
                     >
-                      <span className="flex flex-col items-center h-[26px] overflow-hidden">
-                        <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                      <span className="flex flex-col items-center h-[22px] overflow-hidden">
+                        <span className="block h-[22px] leading-[22px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
                           Contact
                         </span>
-                        <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                        <span className="block h-[22px] leading-[22px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
                           Contact
                         </span>
                       </span>

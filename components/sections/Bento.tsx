@@ -58,7 +58,7 @@ export default function Bento() {
                 {/* Card 1 - Adaptive Learning */}
                 <motion.div
                   variants={bentoCardVariants}
-                  className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[496.81px] bg-white shadow-sm rounded-2xl"
+                  className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[496.81px] bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100"
                 >
                   <div className="w-full aspect-480/354 rounded-xl overflow-hidden">
                     <Image
@@ -83,7 +83,7 @@ export default function Bento() {
                 {/* Card 2 - Smart Automation */}
                 <motion.div
                   variants={bentoCardVariants}
-                  className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[719px] bg-white shadow-sm rounded-2xl"
+                  className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[719px] bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100"
                 >
                   <div className="w-full aspect-703/353 rounded-xl overflow-hidden">
                     <Image
@@ -111,7 +111,7 @@ export default function Bento() {
                 {/* Card 3 - Data Mapping */}
                 <motion.div
                   variants={bentoCardVariants}
-                  className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[806px] bg-white shadow-sm rounded-2xl"
+                  className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[806px] bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100"
                 >
                   <div className="w-full aspect-790/353 rounded-xl overflow-hidden">
                     <Image
@@ -137,7 +137,7 @@ export default function Bento() {
                 {/* Card 4 - Predictive Analytics */}
                 <motion.div
                   variants={bentoCardVariants}
-                  className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[410px] bg-white shadow-sm rounded-2xl"
+                  className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[410px] bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100"
                 >
                   <div className="w-full aspect-394/355 rounded-xl overflow-hidden">
                     <Image

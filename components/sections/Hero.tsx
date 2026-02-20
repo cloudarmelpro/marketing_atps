@@ -1,51 +1,179 @@
 "use client";
 
-import React from "react";
+import { useState, useEffect } from "react";
 import { ButtonDemoBlur } from "../ButtonDemo";
 import { Button } from "../ui/button";
 import { Container } from "../ui/container";
 import Image from "next/image";
-import { ChevronDown, Globe } from "lucide-react";
+import { ChevronDown, Globe, Sparkles } from "lucide-react";
 import { Input } from "../ui/input";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  heroBadgeVariants,
   heroTitleWordVariants,
   heroDescriptionVariants,
   heroButtonVariants,
   heroCardVariants,
 } from "@/lib/motion";
 
+const CHAT_MESSAGES = [
+  {
+    id: 1,
+    type: "user",
+    message: "Hey, I need help sending out a campaign to all new subscribers. Can you set that up?",
+    delay: 0.5,
+  },
+  {
+    id: 2,
+    type: "ai",
+    message: "Of course! I'll prepare a personalized campaign for your new subscribers. Would you like me to schedule it now or review it first?",
+    delay: 2,
+  },
+  {
+    id: 3,
+    type: "user",
+    message: "Yes, You can schedule it.",
+    delay: 4,
+  },
+];
+
+function TypingIndicator() {
+  return (
+    <div className="flex items-center gap-1 px-3 py-2">
+      <motion.div
+        className="w-2 h-2 bg-[#1b0c25]/40 rounded-full"
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+      />
+      <motion.div
+        className="w-2 h-2 bg-[#1b0c25]/40 rounded-full"
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+      />
+      <motion.div
+        className="w-2 h-2 bg-[#1b0c25]/40 rounded-full"
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+      />
+    </div>
+  );
+}
+
+function ChatMessage({ message, type, delay }: { message: string; type: string; delay: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    const typingTimer = setTimeout(() => {
+      setIsTyping(true);
+    }, delay * 1000);
+
+    const showTimer = setTimeout(() => {
+      setIsTyping(false);
+      setIsVisible(true);
+    }, (delay + 1) * 1000);
+
+    return () => {
+      clearTimeout(typingTimer);
+      clearTimeout(showTimer);
+    };
+  }, [delay]);
+
+  useEffect(() => {
+    if (isVisible && type === "ai") {
+      let index = 0;
+      const interval = setInterval(() => {
+        if (index <= message.length) {
+          setDisplayedText(message.slice(0, index));
+          index++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 20);
+      return () => clearInterval(interval);
+    } else if (isVisible) {
+      setDisplayedText(message);
+    }
+  }, [isVisible, message, type]);
+
+  if (type === "user") {
+    return (
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-start gap-2 justify-end"
+          >
+            <div className="bg-white rounded-xl px-4 py-2 max-w-[280px] shadow-sm">
+              <p className="text-[13px] text-[#1b0c25] leading-relaxed">{displayedText}</p>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-linear-to-br from-pink-400 to-purple-500 flex items-center justify-center shrink-0">
+              <span className="text-white text-xs font-medium">U</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    );
+  }
+
+  return (
+    <AnimatePresence>
+      {isTyping && !isVisible && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="flex items-start gap-2"
+        >
+          <div className="w-8 h-8 rounded-lg bg-[#1b0c25] flex items-center justify-center shrink-0">
+            <Sparkles className="w-4 h-4 text-white" />
+          </div>
+          <div className="bg-white/80 rounded-xl px-3 py-2 shadow-sm">
+            <TypingIndicator />
+          </div>
+        </motion.div>
+      )}
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-start gap-2"
+        >
+          <div className="w-8 h-8 rounded-lg bg-[#1b0c25] flex items-center justify-center shrink-0">
+            <Sparkles className="w-4 h-4 text-white" />
+          </div>
+          <div className="bg-white/80 rounded-xl px-4 py-2 max-w-[320px] shadow-sm">
+            <p className="text-[13px] text-[#1b0c25] leading-relaxed">{displayedText}</p>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function Hero() {
   // Split title into words for animation
   const titleWords = ["The", "AI-powered", "Customer", "Service", "Platform"];
 
   return (
-    <div className="w-ful p-4 sm:p-6 lg:p-4">
-      <div className="min-h-[800px] lg:h-[1236px] bg-[url('/images/bgHero.png')] rounded-2xl overflow-hidden bg-cover bg-center">
-        <div className="flex flex-col gap-8 lg:gap-[60px] px-4 sm:px-6 lg:px-0 pt-16 lg:pt-[160px]">
+    <div className="w-full pb-0 px-4 sm:px-6 lg:px-4">
+      <div className="min-h-[800px] lg:h-[1236px] bg-[#1B0C25] rounded-2xl overflow-hidden relative">
+        {/* Gradients - comme dans le Footer */}
+        <div className="absolute z-0 left-[-246px] top-[-186px] rounded-[603px] w-[658px] h-[548px] bg-[linear-gradient(148deg,#80a9fc_0%,#d37bff_31.09%,#fcab83_70.46%,#ff49d4_100%)] blur-[80px] opacity-[0.4] max-lg:hidden" />
+        <div className="absolute z-0 right-[-86px] bottom-[100px] rounded-[603px] w-[658px] h-[548px] bg-[linear-gradient(145deg,#efe8f6_0%,#d588fb_60.83%,#ff49d4_100%)] blur-[80px] opacity-[0.4] max-lg:hidden" />
+        
+        <div className="relative z-10 flex flex-col gap-8 lg:gap-[60px] px-4 sm:px-6 lg:px-0 pt-16 lg:pt-[160px] h-full">
           <Container className="flex flex-col gap-6 lg:gap-[40px]">
             <div className="flex flex-col gap-4 lg:gap-[24px]">
               <div className="flex flex-col items-start gap-4 lg:gap-[24px]">
                 <div className="flex flex-col items-start w-full lg:w-[940px] gap-3 lg:gap-[12px]">
-                  {/* Badge */}
-                  <motion.div
-                    variants={heroBadgeVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="w-[180px] sm:w-[202px] h-6 sm:h-7 lg:h-[28px] flex items-center justify-center rounded-full backdrop-blur-[6px] bg-white/20 shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_4px_4px_rgba(255,255,255,0.3)]"
-                  >
-                    <p className="uppercase text-[11px] sm:text-[13px] leading-[14px] sm:leading-[16px] text-[#1b0c25] font-medium truncate">
-                      business & solution
-                    </p>
-                  </motion.div>
-
                   {/* Title */}
                   <motion.h1
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-4xl sm:text-5xl lg:text-[76px] leading-tight lg:leading-[76px] text-[#1b0c25] font-medium"
+                    className="text-4xl sm:text-5xl lg:text-[60px] leading-tight lg:leading-[60px] text-white font-medium"
                   >
                     {titleWords.map((word, index) => (
                       <motion.span
@@ -73,7 +201,7 @@ export default function Hero() {
                   animate="visible"
                   className="w-full lg:w-[700px]"
                 >
-                  <p className="text-base sm:text-lg lg:text-[18px] leading-relaxed lg:leading-[28px] font-normal text-[#1b0c25]">
+                  <p className="text-base sm:text-lg lg:text-[18px] leading-relaxed lg:leading-[28px] font-normal text-white/90">
                     Fluence AI helps you connect, manage, and optimize your AI
                     tools effortlessly. Unlock powerful insights and automate
                     complex processes with ease.
@@ -92,12 +220,12 @@ export default function Hero() {
             </div>
           </Container>
 
-          <Container>
+          <Container className="flex-1 flex flex-col">
             <motion.div
               variants={heroCardVariants}
               initial="hidden"
               animate="visible"
-              className="flex items-center justify-center w-full min-h-[500px] lg:h-[654px] border border-white relative rounded-tl-[20px] sm:rounded-tl-[30px] lg:rounded-tl-[40px] rounded-tr-[20px] sm:rounded-tr-[30px] lg:rounded-tr-[40px] backdrop-blur-[10px] bg-[linear-gradient(180deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.6)_100%)]"
+              className="flex-1 flex items-end justify-center w-full border border-white/20 border-b-0 relative rounded-tl-[20px] sm:rounded-tl-[30px] lg:rounded-tl-[40px] rounded-tr-[20px] sm:rounded-tr-[30px] lg:rounded-tr-[40px] rounded-b-none backdrop-blur-[10px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.15)_100%)] overflow-hidden"
             >
               {/* Decorative Elements - Hidden on mobile/tablet */}
               <motion.div
@@ -121,7 +249,7 @@ export default function Hero() {
               />
 
               {/* Content Container */}
-              <div className="relative z-10 w-full lg:w-[1140px] h-full lg:h-[652px] px-4 sm:px-6 lg:px-[50px] flex items-center justify-center">
+              <div className="relative z-10 w-full lg:w-[1140px] h-full px-4 sm:px-6 lg:px-[50px] flex items-end justify-center">
                 {/* Background Pattern - Adjusted for mobile */}
                 <motion.div
                   className="absolute inset-0 w-full h-full bg-[url('/images/bgCha.png')] bottom-0 bg-cover bg-center opacity-50 lg:opacity-100"
@@ -135,12 +263,21 @@ export default function Hero() {
                 />
 
                 {/* Main Content */}
-                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 lg:gap-[30px] px-4 sm:px-8 lg:px-[300px] w-full">
-                  {/* Top Empty Card */}
-                  <div className="w-full sm:w-[540px] lg:w-[640px] h-[200px] sm:h-[250px] lg:h-[310px] rounded-2xl p-3 sm:p-4 lg:p-[14px] backdrop-blur-[10px] bg-white/30 border border-white" />
+                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 lg:gap-[30px] px-4 sm:px-8 lg:px-[300px] w-full pb-0">
+                  {/* Chat Card */}
+                  <div className="w-full sm:w-[540px] lg:w-[640px] min-h-[200px] sm:min-h-[250px] lg:min-h-[310px] rounded-2xl p-4 sm:p-5 lg:p-6 backdrop-blur-[10px] bg-white/10 border border-white/20 flex flex-col gap-4 justify-end">
+                    {CHAT_MESSAGES.map((msg) => (
+                      <ChatMessage
+                        key={msg.id}
+                        message={msg.message}
+                        type={msg.type}
+                        delay={msg.delay}
+                      />
+                    ))}
+                  </div>
 
                   {/* Bottom Form Card */}
-                  <div className="w-full sm:w-[540px] lg:w-[640px] px-3 sm:px-4 lg:px-[14px] py-3 sm:py-4 lg:py-[14px] flex flex-col gap-3 sm:gap-4 lg:gap-[14px] border border-white rounded-xl lg:rounded-[13px] backdrop-blur-[25px] bg-white/80 shadow-[0_0_30px_rgba(195,79,150,0.3)]">
+                  <div className="w-full sm:w-[540px] lg:w-[640px] px-3 sm:px-4 lg:px-[14px] pt-3 sm:pt-4 lg:pt-[14px] pb-6 sm:pb-8 lg:pb-10 flex flex-col gap-3 sm:gap-4 lg:gap-[14px] border border-white/30 border-b-0 rounded-t-xl lg:rounded-t-[13px] rounded-b-none backdrop-blur-[25px] bg-white/90 shadow-[0_0_40px_rgba(195,79,150,0.4)]">
                     {/* Button Group */}
                     <div className="flex flex-wrap gap-2 sm:gap-[8px]">
                       <Button className="text-[11px] sm:text-[12px] font-medium leading-[14px] rounded-[19px] px-3 sm:px-4 py-2 h-auto sm:h-[34px] bg-white backdrop-blur-[6px] border border-[#f2e8fa] text-[#1b0c26] hover:bg-transparent">

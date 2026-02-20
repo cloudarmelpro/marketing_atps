@@ -44,7 +44,7 @@ export default function Faqs() {
   };
 
   return (
-    <div className="py-12 sm:py-16 lg:py-20 xl:py-[100px]">
+    <div id="faq" className="py-12 sm:py-16 lg:py-20 xl:py-[100px]">
       <Container className="flex flex-col lg:flex-row items-start gap-6 lg:gap-[60px] p-4 sm:p-6 lg:p-8 xl:p-[40px] bg-white rounded-2xl">
         {/* Left Column - Static Content */}
         <motion.div

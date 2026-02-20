@@ -13,7 +13,7 @@ import Work from "@/components/sections/Work";
 
 const HomePage = () => {
   return (
-    <div className="bg-[#F7F6F7]">
+    <>
       <Navigation />
       <Hero />
       <Bento />
@@ -26,7 +26,7 @@ const HomePage = () => {
       <Faqs/>
       <BlogSection />
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -20,7 +20,7 @@ export function ButtonDemo() {
       </Button>
 
       <Button
-        className="group w-full sm:w-[200px] h-12 sm:h-[50px] bg-white hover:bg-white
+        className="group w-full sm:w-[200px] h-12 sm:h-[50px] border border-gray-100 bg-white hover:bg-white
         text-black text-sm sm:text-[15px] leading-normal sm:leading-[26px] rounded-[8px]"
       >
         <span className="flex flex-col items-center h-[26px] overflow-hidden">
@@ -56,9 +56,9 @@ export function ButtonDemoBlur() {
       </Button>
 
       <Button
-        className="group w-full sm:w-[200px] h-12 sm:h-[50px] hover:bg-white/25 border border-white
+        className="group w-full sm:w-[200px] h-12 sm:h-[50px] hover:bg-white/90 border border-white
         text-black text-sm sm:text-[15px] leading-normal sm:leading-[26px]
-        rounded-[8px] bg-white/25 backdrop-blur-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
+        rounded-[8px] bg-white backdrop-blur-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
       >
         <span className="flex flex-col items-center h-[26px] overflow-hidden">
           <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">

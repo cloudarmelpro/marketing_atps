@@ -55,7 +55,7 @@ export default function BenefistCard() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportSettings}
-        className="bg-white rounded-2xl shadow-[0_1px_2px_rgba(0,0,0,0.06)] overflow-hidden"
+        className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 overflow-hidden"
       >
         
         {/* Responsive Layout */}
@@ -105,7 +105,7 @@ export default function BenefistCard() {
             transition={{ delay: 0.2 }}
             className="w-full lg:w-[520px] order-1 lg:order-2"
           >
-            <div className="relative w-full aspect-[520/486] rounded-lg overflow-hidden">
+            <div className="relative w-full aspect-520/486 rounded-lg overflow-hidden">
               <Image
                 src="/images/keyben.png"
                 fill

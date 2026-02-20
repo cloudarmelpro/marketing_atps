@@ -1,6 +1,7 @@
 // InputField.tsx
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { cn } from "@/lib/utils";
 
 export default function InputField({
   label,
@@ -12,16 +13,17 @@ export default function InputField({
   className?: string;
 }) {
   return (
-    <>
-      <div className="flex flex-col gap-[8px] w-[308px] h-[82px] max-lg:w-full max-lg:h-auto">
-        <Label className="text-[15px] font-medium leading-[26px] text-[#1B0C25] max-lg:text-sm">
-          {label}
-        </Label>
-        <Input
-          placeholder={placeholder}
-          className={`bg-white flex items-start justify-center w-[308px] h-[48px] rounded-[8px] max-lg:w-full ${className || ""}`}
-        />
-      </div>
-    </>
+    <div className="flex flex-col gap-2 w-full min-w-0">
+      <Label className="text-sm sm:text-[15px] font-medium leading-[26px] text-[#1B0C25]">
+        {label}
+      </Label>
+      <Input
+        placeholder={placeholder}
+        className={cn(
+          "bg-white w-full h-11 sm:h-12 rounded-[8px] text-sm sm:text-base",
+          className
+        )}
+      />
+    </div>
   );
 }
