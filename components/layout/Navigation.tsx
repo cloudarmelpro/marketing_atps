@@ -19,6 +19,8 @@ const NAV_LIST = [
   { id: 3, name: "Testimonial", link: "/#testimonial" },
   { id: 4, name: "Pricing", link: "/#pricing" },
   { id: 5, name: "Faq", link: "/#faq" },
+  { id: 6, name: "Blog", link: "/blog" },
+  { id: 7, name: "News", link: "/news" },
 ];
 
 const Navigation = () => {
