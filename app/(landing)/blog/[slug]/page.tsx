@@ -4,7 +4,10 @@ import { FadeInUp, ScaleIn, StaggerContainer } from "@/lib/motion";
 import RelatedPosts from "@/components/sections/RelatedPosts";
 import BlogSidebar from "@/components/sections/BlogSidebar";
 import { blogService } from "@/lib/api";
-import { transformBlogArticle, transformBlogArticles } from "@/lib/api/transformers";
+import {
+  transformBlogArticle,
+  transformBlogArticles,
+} from "@/lib/api/transformers";
 import { Container } from "@/components/ui/container";
 import type { Metadata } from "next";
 
@@ -12,7 +15,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const response = await blogService.getArticleBySlug(slug);
 
@@ -52,12 +57,13 @@ export default async function BlogDetail({ params }: PageProps) {
   const relatedArticles = relatedData?.articles || [];
   const relatedPosts = transformBlogArticles(relatedArticles);
 
-  const displayImage = blog.detailImage || blog.imageBlog || "/assets/placeholder.png";
+  const displayImage =
+    blog.detailImage || blog.imageBlog || "/assets/placeholder.png";
 
   blogService.incrementViewCount(article.id);
 
   return (
-    <div className="bg-white pb-20">
+    <div className="pb-20">
       <Container className="pt-[140px] pb-[80px]">
         <StaggerContainer className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12">
           <div className="min-w-0">
@@ -71,7 +77,7 @@ export default async function BlogDetail({ params }: PageProps) {
               </FadeInUp>
 
               <FadeInUp delay={0.1}>
-                <h1 className="text-4xl md:text-5xl lg:text-[56px] font-bold text-[#1B0C25] leading-tight">
+                <h1 className="text-3xl md:text-4xl lg:text-[46px] font-bold text-[#1B0C25] leading-tight">
                   {blog.description}
                 </h1>
               </FadeInUp>
@@ -93,15 +99,25 @@ export default async function BlogDetail({ params }: PageProps) {
                     )}
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-bold text-[#1B0C25]">{blog.author.name}</p>
+                    <p className="text-sm font-bold text-[#1B0C25]">
+                      {blog.author.name}
+                    </p>
                     <p className="text-xs text-gray-500">Author</p>
                   </div>
                 </FadeInUp>
               )}
             </div>
 
-            <ScaleIn delay={0.3} className="w-full rounded-2xl overflow-hidden shadow-2xl relative aspect-video mb-12">
-              <Image src={displayImage} alt="blog" fill className="object-cover" />
+            <ScaleIn
+              delay={0.3}
+              className="w-full rounded-2xl overflow-hidden shadow-2xl relative aspect-video mb-12"
+            >
+              <Image
+                src={displayImage}
+                alt="blog"
+                fill
+                className="object-cover"
+              />
             </ScaleIn>
 
             {blog.sections && blog.sections.length > 0 ? (
@@ -155,7 +171,7 @@ export default async function BlogDetail({ params }: PageProps) {
         </StaggerContainer>
       </Container>
 
-      <div className="w-full bg-[#FAFAFA] py-20">
+      <div className="w-full py-20">
         <Container>
           <RelatedPosts posts={relatedPosts} />
         </Container>

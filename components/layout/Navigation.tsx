@@ -129,161 +129,161 @@ const Navigation = () => {
               ? "rgba(255, 255, 255, 0.9)"
               : "var(--color-white--100)",
             boxShadow: isScrolled ? "0px 2px 6px rgba(0, 0, 0, 0.04)" : "none",
-            border: isScrolled ? "none" : "1px solid #1B0C25",
+            border: isScrolled ? "none" : "1px solid rgba(27, 12, 37, 0.2)",
           }}
         >
-        <div
-          className="flex items-center transition-all duration-300 w-full"
-          style={{
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Logo */}
-          <motion.div
-            variants={navigationLogoVariants}
-            className="flex items-center transition-all duration-300 shrink-0"
+          <div
+            className="flex items-center transition-all duration-300 w-full"
             style={{
-              gap: logoSize.gap,
+              justifyContent: "space-between",
             }}
           >
-            <div
-              className="rounded-[6px] bg-[#1B0C25] flex items-center justify-center transition-all duration-300 shrink-0"
-              style={{
-                height: logoSize.box,
-                width: logoSize.box,
-              }}
-            >
-              {isMobile && (
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-                  <path
-                    d="M4 4L16 16M16 4L4 16"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              )}
-            </div>
-            <p
-              className="font-medium text-[#1b0c25] transition-all duration-300 whitespace-nowrap"
-              style={{
-                fontSize: logoSize.text,
-                lineHeight: logoSize.text,
-              }}
-            >
-              Fluence AI
-            </p>
-          </motion.div>
-
-          {/* Desktop Nav - Caché sur mobile/tablet */}
-          {!isMobile && (
+            {/* Logo */}
             <motion.div
-              variants={navigationContainerVariants}
-              initial="hidden"
-              animate="visible"
-              className={`${
-                isTablet ? "hidden lg:flex" : "flex"
-              } items-center transition-all duration-300 shrink-0`}
+              variants={navigationLogoVariants}
+              className="flex items-center transition-all duration-300 shrink-0"
               style={{
-                gap: isScrolled
-                  ? isTablet
-                    ? "16px"
-                    : "24px"
-                  : isTablet
-                    ? "24px"
-                    : "40px",
+                gap: logoSize.gap,
               }}
             >
+              <div
+                className="rounded-[6px] bg-[#1B0C25] flex items-center justify-center transition-all duration-300 shrink-0"
+                style={{
+                  height: logoSize.box,
+                  width: logoSize.box,
+                }}
+              >
+                {isMobile && (
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M4 4L16 16M16 4L4 16"
+                      stroke="white"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                )}
+              </div>
+              <p
+                className="font-medium text-[#1b0c25] transition-all duration-300 whitespace-nowrap"
+                style={{
+                  fontSize: logoSize.text,
+                  lineHeight: logoSize.text,
+                }}
+              >
+                Fluence AI
+              </p>
+            </motion.div>
+
+            {/* Desktop Nav - Caché sur mobile/tablet */}
+            {!isMobile && (
               <motion.div
                 variants={navigationContainerVariants}
-                className="flex transition-all duration-300"
+                initial="hidden"
+                animate="visible"
+                className={`${
+                  isTablet ? "hidden lg:flex" : "flex"
+                } items-center transition-all duration-300 shrink-0`}
                 style={{
                   gap: isScrolled
                     ? isTablet
-                      ? "8px"
-                      : "12px"
+                      ? "16px"
+                      : "24px"
                     : isTablet
-                      ? "12px"
-                      : "20px",
+                      ? "24px"
+                      : "40px",
                 }}
               >
-                {NAV_LIST.map((item) => (
-                  <motion.div key={item.id} variants={navigationLinkVariants}>
-                    <Link
-                      href={item.link}
-                      className="font-medium text-[#1B0C25] opacity-[0.5] hover:text-[#1B0C25]/80 transition-all duration-300 whitespace-nowrap"
+                <motion.div
+                  variants={navigationContainerVariants}
+                  className="flex transition-all duration-300"
+                  style={{
+                    gap: isScrolled
+                      ? isTablet
+                        ? "8px"
+                        : "12px"
+                      : isTablet
+                        ? "12px"
+                        : "20px",
+                  }}
+                >
+                  {NAV_LIST.map((item) => (
+                    <motion.div key={item.id} variants={navigationLinkVariants}>
+                      <Link
+                        href={item.link}
+                        className="font-medium text-[#1B0C25] opacity-[0.5] hover:text-[#1B0C25]/80 transition-all duration-300 whitespace-nowrap"
+                        style={{
+                          fontSize: isScrolled
+                            ? isTablet
+                              ? "12px"
+                              : "13px"
+                            : isTablet
+                              ? "13px"
+                              : "15px",
+                        }}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </motion.div>
+                <motion.div variants={navigationButtonVariants}>
+                  <Link href="/contact">
+                    <Button
+                      className="group font-medium rounded-[8px] p-[8px] backdrop-blur-[6px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)] transition-all duration-300"
                       style={{
                         fontSize: isScrolled
                           ? isTablet
                             ? "12px"
-                            : "13px"
+                            : "14px"
                           : isTablet
                             ? "13px"
-                            : "15px",
+                            : "16px",
+                        width: isScrolled
+                          ? isTablet
+                            ? "80px"
+                            : "100px"
+                          : isTablet
+                            ? "90px"
+                            : "120px",
+                        height: isScrolled
+                          ? isTablet
+                            ? "32px"
+                            : "36px"
+                          : isTablet
+                            ? "34px"
+                            : "40px",
                       }}
                     >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                ))}
-              </motion.div>
-              <motion.div variants={navigationButtonVariants}>
-                <Link href="/contact">
-                  <Button
-                    className="group font-medium rounded-[8px] p-[8px] backdrop-blur-[6px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)] transition-all duration-300"
-                    style={{
-                      fontSize: isScrolled
-                        ? isTablet
-                          ? "12px"
-                          : "14px"
-                        : isTablet
-                          ? "13px"
-                          : "16px",
-                      width: isScrolled
-                        ? isTablet
-                          ? "80px"
-                          : "100px"
-                        : isTablet
-                          ? "90px"
-                          : "120px",
-                      height: isScrolled
-                        ? isTablet
-                          ? "32px"
-                          : "36px"
-                        : isTablet
-                          ? "34px"
-                          : "40px",
-                    }}
-                  >
-                    <span className="flex flex-col items-center h-[26px] overflow-hidden">
-                      <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                        Contact
+                      <span className="flex flex-col items-center h-[26px] overflow-hidden">
+                        <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                          Contact
+                        </span>
+                        <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
+                          Contact
+                        </span>
                       </span>
-                      <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                        Contact
-                      </span>
-                    </span>
-                  </Button>
-                </Link>
+                    </Button>
+                  </Link>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          )}
+            )}
 
-          {/* Mobile/Tablet Hamburger - Visible uniquement sur mobile et tablette */}
-          {(isMobile || isTablet) && (
-            <button
-              className="flex items-center justify-center w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] gap-[5px] focus:outline-none"
-              onClick={() => setIsMenuOpen(true)}
-              aria-label="Open menu"
-            >
-              <div className="flex flex-col justify-center items-center gap-[5px]">
-                <span className="w-[20px] sm:w-[22px] h-[2px] bg-[#1B0C25] rounded-full block transition-all duration-300" />
-                <span className="w-[20px] sm:w-[22px] h-[2px] bg-[#1B0C25] rounded-full block transition-all duration-300" />
-                <span className="w-[20px] sm:w-[22px] h-[2px] bg-[#1B0C25] rounded-full block transition-all duration-300" />
-              </div>
-            </button>
-          )}
-        </div>
+            {/* Mobile/Tablet Hamburger - Visible uniquement sur mobile et tablette */}
+            {(isMobile || isTablet) && (
+              <button
+                className="flex items-center justify-center w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] gap-[5px] focus:outline-none"
+                onClick={() => setIsMenuOpen(true)}
+                aria-label="Open menu"
+              >
+                <div className="flex flex-col justify-center items-center gap-[5px]">
+                  <span className="w-[20px] sm:w-[22px] h-[2px] bg-[#1B0C25] rounded-full block transition-all duration-300" />
+                  <span className="w-[20px] sm:w-[22px] h-[2px] bg-[#1B0C25] rounded-full block transition-all duration-300" />
+                  <span className="w-[20px] sm:w-[22px] h-[2px] bg-[#1B0C25] rounded-full block transition-all duration-300" />
+                </div>
+              </button>
+            )}
+          </div>
         </motion.div>
       </Container>
 
