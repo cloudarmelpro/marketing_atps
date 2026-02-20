@@ -1,49 +1,114 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ALL_BLOG_POSTS, NEWS_CATEGORIES } from "@/lib/constants"; // Using NEWS_CATEGORIES as BLOG_CATEGORIES for consistency if needed, or I should import BLOG_CATEGORIES
-import { FadeInUp, StaggerContainer } from "@/lib/motion";
-
-// Ensure BLOG_CATEGORIES exists or mock it here if it was not exported in the view
-const BLOG_CATEGORIES = [
-  "All posts",
-  "E-Learning",
-  "Assessment",
-  "Quizzes",
-  "Proctored Exams",
-  "EdTech AI",
-  "Learning Tools",
-  "Best Practices",
-  "Security",
-  "Analytics",
-  "Case Studies",
-  "Guides",
-  "Updates",
-];
+import { StaggerContainer } from "@/lib/motion";
+import { blogService } from "@/lib/api";
+import { transformBlogArticles, type TransformedBlogPost } from "@/lib/api/transformers";
+import { BlogListSkeleton } from "@/components/ui/skeleton-card";
+import type { BlogQueryParams, PaginationInfo } from "@/lib/types";
 
 export default function BlogList() {
+  const [posts, setPosts] = useState<TransformedBlogPost[]>([]);
+  const [categories, setCategories] = useState<string[]>(["All posts"]);
   const [selectedCategory, setSelectedCategory] = useState("All posts");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pagination, setPagination] = useState<PaginationInfo>({
+    page: 1,
+    limit: 12,
+    total: 0,
+    totalPages: 1,
+    hasNext: false,
+    hasPrev: false,
+  });
 
-  const filteredPosts =
-    selectedCategory === "All posts"
-      ? ALL_BLOG_POSTS
-      : ALL_BLOG_POSTS.filter(
-          (post: any) =>
-            post.category === selectedCategory ||
-            post.title === selectedCategory,
-        ); // Fallback to title as category matches previous logic
+  const fetchPosts = useCallback(async (params: BlogQueryParams = {}) => {
+    setLoading(true);
+    setError(null);
+
+    const queryParams: BlogQueryParams = {
+      page: params.page || 1,
+      limit: 12,
+      sortBy: "publishedAt",
+      sortOrder: "desc",
+      status: "published",
+    };
+
+    if (selectedCategory !== "All posts") {
+      queryParams.category = selectedCategory;
+    }
+
+    const response = await blogService.getArticles(queryParams);
+
+    if (response.error) {
+      setError(response.error.message);
+      setPosts([]);
+    } else if (response.data) {
+      const articlesData = response.data.articles || [];
+      const transformed = transformBlogArticles(articlesData);
+      setPosts(transformed);
+      if (response.data.pagination) {
+        setPagination(response.data.pagination);
+      }
+    }
+
+    setLoading(false);
+  }, [selectedCategory]);
+
+  const fetchCategories = useCallback(async () => {
+    const response = await blogService.getCategories();
+
+    if (response.data) {
+      const cats = response.data.categories || [];
+      const categoryNames = [
+        "All posts",
+        ...cats.map((c: { name: string }) => c.name),
+      ];
+      setCategories(categoryNames);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
+  useEffect(() => {
+    fetchPosts({ page: 1 });
+  }, [selectedCategory, fetchPosts]);
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+  };
+
+  if (loading && posts.length === 0) {
+    return <BlogListSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center py-20 gap-4">
+        <p className="text-red-500 text-lg">{error}</p>
+        <button
+          onClick={() => fetchPosts()}
+          className="px-6 py-2 bg-[#1B0C25] text-white rounded-full hover:bg-[#1B0C25]/90 transition-colors"
+        >
+          Réessayer
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-col gap-12">
-      {/* Filters - Pill Design like News */}
+      {/* Filters - Pill Design */}
       <div className="flex flex-wrap gap-3 justify-center mb-8">
-        {BLOG_CATEGORIES.map((category) => (
+        {categories.map((category) => (
           <button
             key={category}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => handleCategorySelect(category)}
             className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
               selectedCategory === category
                 ? "bg-[#1B0C25] text-white shadow-md"
@@ -58,7 +123,7 @@ export default function BlogList() {
       {/* Grid */}
       <StaggerContainer className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-md:grid-cols-1">
         <AnimatePresence mode="popLayout">
-          {filteredPosts.map((blog) => (
+          {posts.map((blog) => (
             <motion.div
               key={blog.id}
               layout
@@ -67,26 +132,24 @@ export default function BlogList() {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
             >
-              <Link href={`/Blog/${blog.id}`} className="block group h-full">
+              <Link href={`/blog/${blog.slug}`} className="block group h-full">
                 <div className="flex flex-col h-full bg-white rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300">
                   {/* Image */}
                   <div className="relative h-60 w-full overflow-hidden">
                     <Image
                       src={blog.imageBlog || "/assets/placeholder.png"}
-                      alt={blog.title}
+                      alt={blog.description}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* Category Badge overlay */}
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide text-[#1B0C25]">
-                      {
-                        blog.title /* Using title as category based on current data structure */
-                      }
+                      {blog.title}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="flex flex-col flex-grow p-6 gap-4">
+                  <div className="flex flex-col grow p-6 gap-4">
                     <div className="text-sm text-gray-500 font-medium flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#1B0C25]/40"></span>
                       {blog.date}
@@ -126,9 +189,32 @@ export default function BlogList() {
         </AnimatePresence>
       </StaggerContainer>
 
-      {filteredPosts.length === 0 && (
+      {posts.length === 0 && !loading && (
         <div className="text-center py-20 text-gray-500">
           No posts found for this category.
+        </div>
+      )}
+
+      {/* Pagination */}
+      {pagination.totalPages > 1 && (
+        <div className="flex justify-center items-center gap-4 mt-8">
+          <button
+            onClick={() => fetchPosts({ page: pagination.page - 1 })}
+            disabled={!pagination.hasPrev || loading}
+            className="px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+          >
+            Previous
+          </button>
+          <span className="text-sm text-gray-600">
+            Page {pagination.page} of {pagination.totalPages}
+          </span>
+          <button
+            onClick={() => fetchPosts({ page: pagination.page + 1 })}
+            disabled={!pagination.hasNext || loading}
+            className="px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+          >
+            Next
+          </button>
         </div>
       )}
     </div>

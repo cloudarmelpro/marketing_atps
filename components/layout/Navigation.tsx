@@ -226,7 +226,7 @@ const Navigation = () => {
                 ))}
               </motion.div>
               <motion.div variants={navigationButtonVariants}>
-                <Link href="/Contact">
+                <Link href="/contact">
                   <Button
                     className="group font-medium rounded-[8px] p-[8px] backdrop-blur-[6px] bg-[#1B0C25] hover:bg-[#1B0C25] shadow-[0_1px_2px_0_rgba(0,0,0,0.1),inset_0_1px_2px_0_rgba(255,255,255,0.4)] transition-all duration-300"
                     style={{

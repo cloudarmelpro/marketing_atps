@@ -4,8 +4,7 @@ import { FadeInUp, StaggerContainer } from "@/lib/motion";
 
 export default function NewsPage() {
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-screen bg-[#FAFAFA] pt-[120px] pb-[80px]">
-      {/* Header Section */}
+    <div className="flex flex-col items-center bg-[#FAFAFA] pt-[120px] pb-[80px]">
       <StaggerContainer className="flex flex-col items-center text-center gap-6 mb-16 px-4">
         <FadeInUp>
           <TitleSection title="LATEST UPDATES" />
@@ -25,7 +24,6 @@ export default function NewsPage() {
         </FadeInUp>
       </StaggerContainer>
 
-      {/* News List Section */}
       <div className="w-full max-w-[1240px] px-4 md:px-0">
         <NewsList />
       </div>

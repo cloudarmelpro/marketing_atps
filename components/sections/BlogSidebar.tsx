@@ -1,9 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ALL_BLOG_POSTS } from "@/lib/constants";
 import { Facebook, Linkedin, X } from "lucide-react";
+import { blogService } from "@/lib/api";
+import { transformBlogArticles, type TransformedBlogPost } from "@/lib/api/transformers";
+import { SidebarSkeleton } from "@/components/ui/skeleton-card";
 
 interface BlogSidebarProps {
   currentPostId: string;
@@ -24,19 +27,38 @@ export default function BlogSidebar({
   tags,
   title,
 }: BlogSidebarProps) {
-  const allPosts = ALL_BLOG_POSTS;
+  const [moreArticles, setMoreArticles] = useState<TransformedBlogPost[]>([]);
+  const [popularArticles, setPopularArticles] = useState<TransformedBlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Logic for "More Articles" - just next 3 articles
-  const moreArticles = allPosts
-    .filter((post) => post.id !== currentPostId)
-    .slice(0, 3);
+  useEffect(() => {
+    const fetchArticles = async () => {
+      setLoading(true);
 
-  // Logic for "Popular Articles" - mock randomization or specific IDs
-  // For now, let's take reversed list or specific ones
-  const popularArticles = [...allPosts]
-    .filter((post) => post.id !== currentPostId)
-    .reverse()
-    .slice(0, 3);
+      const [recentResponse, popularResponse] = await Promise.all([
+        blogService.getRecentArticles(4),
+        blogService.getPopularArticles(4),
+      ]);
+
+      if (recentResponse.data) {
+        const data = recentResponse.data as any;
+        const articlesArray = Array.isArray(data) ? data : (data.articles || []);
+        const filtered = articlesArray.filter((a: any) => a.id !== currentPostId);
+        setMoreArticles(transformBlogArticles(filtered).slice(0, 3));
+      }
+
+      if (popularResponse.data) {
+        const data = popularResponse.data as any;
+        const articlesArray = Array.isArray(data) ? data : (data.articles || []);
+        const filtered = articlesArray.filter((a: any) => a.id !== currentPostId);
+        setPopularArticles(transformBlogArticles(filtered).slice(0, 3));
+      }
+
+      setLoading(false);
+    };
+
+    fetchArticles();
+  }, [currentPostId]);
 
   const handleShare = (platform: "twitter" | "facebook" | "linkedin") => {
     const text = `Check out: ${title}`;
@@ -50,6 +72,10 @@ export default function BlogSidebar({
 
     window.open(urls[platform], "_blank");
   };
+
+  if (loading) {
+    return <SidebarSkeleton />;
+  }
 
   return (
     <aside className="w-full lg:w-[320px] flex flex-col gap-8">
@@ -98,71 +124,76 @@ export default function BlogSidebar({
           </div>
         </div>
       )}
+
       {/* More Articles */}
-      <div>
-        <p className="text-[11px] leading-3.25 font-semibold uppercase tracking-wide text-black/50 mb-4">
-          More articles
-        </p>
-        <div className="flex flex-col gap-4">
-          {moreArticles.map((post) => (
-            <Link
-              key={post.id}
-              href={`/Blog/${post.id}`}
-              className="group flex gap-3 items-center"
-            >
-              <div className="min-w-0 flex-1">
-                <p className="text-[#1B0C25] text-[13px] leading-relaxed font-bold line-clamp-2 group-hover:text-[#1B0C25]/70 transition-colors">
-                  {post.description}
-                </p>
-                <p className="text-black/55 text-xs mt-1 truncate">
-                  {post.author?.name || "Anonymous"}
-                </p>
-              </div>
-              <div className="relative w-14 h-10 shrink-0 rounded-sm bg-gray-100 overflow-hidden">
-                <Image
-                  src={post.imageBlog || "/assets/placeholder.png"}
-                  alt={post.description}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </Link>
-          ))}
+      {moreArticles.length > 0 && (
+        <div>
+          <p className="text-[11px] leading-3.25 font-semibold uppercase tracking-wide text-black/50 mb-4">
+            More articles
+          </p>
+          <div className="flex flex-col gap-4">
+            {moreArticles.map((post) => (
+              <Link
+                key={post.id}
+                href={`/blog/${post.slug}`}
+                className="group flex gap-3 items-center"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="text-[#1B0C25] text-[13px] leading-relaxed font-bold line-clamp-2 group-hover:text-[#1B0C25]/70 transition-colors">
+                    {post.description}
+                  </p>
+                  <p className="text-black/55 text-xs mt-1 truncate">
+                    {post.author?.name || "Anonymous"}
+                  </p>
+                </div>
+                <div className="relative w-14 h-10 shrink-0 rounded-sm bg-gray-100 overflow-hidden">
+                  <Image
+                    src={post.imageBlog || "/assets/placeholder.png"}
+                    alt={post.description}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Popular Articles */}
-      <div>
-        <p className="text-[11px] leading-3.25 font-semibold uppercase tracking-wide text-black/50 mb-4">
-          Popular articles
-        </p>
-        <div className="flex flex-col gap-4">
-          {popularArticles.map((post) => (
-            <Link
-              key={post.id}
-              href={`/Blog/${post.id}`}
-              className="group flex gap-3 items-center"
-            >
-              <div className="min-w-0 flex-1">
-                <p className="text-[#1B0C25] text-[13px] leading-relaxed font-bold line-clamp-2 group-hover:text-[#1B0C25]/70 transition-colors">
-                  {post.description}
-                </p>
-                <p className="text-black/55 text-xs mt-1 truncate">
-                  {post.author?.name || "Anonymous"}
-                </p>
-              </div>
-              <div className="relative w-14 h-10 shrink-0 rounded-sm bg-gray-100 overflow-hidden">
-                <Image
-                  src={post.imageBlog || "/assets/placeholder.png"}
-                  alt={post.description}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </Link>
-          ))}
+      {popularArticles.length > 0 && (
+        <div>
+          <p className="text-[11px] leading-3.25 font-semibold uppercase tracking-wide text-black/50 mb-4">
+            Popular articles
+          </p>
+          <div className="flex flex-col gap-4">
+            {popularArticles.map((post) => (
+              <Link
+                key={post.id}
+                href={`/blog/${post.slug}`}
+                className="group flex gap-3 items-center"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="text-[#1B0C25] text-[13px] leading-relaxed font-bold line-clamp-2 group-hover:text-[#1B0C25]/70 transition-colors">
+                    {post.description}
+                  </p>
+                  <p className="text-black/55 text-xs mt-1 truncate">
+                    {post.author?.name || "Anonymous"}
+                  </p>
+                </div>
+                <div className="relative w-14 h-10 shrink-0 rounded-sm bg-gray-100 overflow-hidden">
+                  <Image
+                    src={post.imageBlog || "/assets/placeholder.png"}
+                    alt={post.description}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Share */}
       <div className="flex items-center justify-between pt-6 border-t border-gray-100">

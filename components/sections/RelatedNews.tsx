@@ -1,11 +1,13 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { scaleInVariants, viewportSettings } from "@/lib/motion";
 import TitleSection from "../TitleSection";
-import { ALL_NEWS } from "@/lib/constants";
+import { newsService } from "@/lib/api";
+import { transformNewsItems, type TransformedNewsItem } from "@/lib/api/transformers";
 
 interface RelatedNewsProps {
   currentNewsId: string;
@@ -16,18 +18,53 @@ export default function RelatedNews({
   currentNewsId,
   category,
 }: RelatedNewsProps) {
-  // Filter related news: same category, exclude current
-  let relatedNews = ALL_NEWS.filter(
-    (item) => item.category === category && item.id !== currentNewsId,
-  ).slice(0, 3);
+  const [relatedNews, setRelatedNews] = useState<TransformedNewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // If not enough, fill with recent news
-  if (relatedNews.length < 3) {
-    const moreNews = ALL_NEWS.filter(
-      (item) =>
-        item.id !== currentNewsId && !relatedNews.find((r) => r.id === item.id),
-    ).slice(0, 3 - relatedNews.length);
-    relatedNews = [...relatedNews, ...moreNews];
+  useEffect(() => {
+    const fetchRelatedNews = async () => {
+      setLoading(true);
+
+      const response = await newsService.getRelatedNews(currentNewsId, 4);
+
+      if (response.data) {
+        const data = response.data as any;
+        const newsArray = Array.isArray(data) ? data : (data.news || []);
+        const filtered = newsArray.filter((n: any) => n.id !== currentNewsId);
+        setRelatedNews(transformNewsItems(filtered).slice(0, 3));
+      } else {
+        const fallbackResponse = await newsService.getRecentNews(4);
+        if (fallbackResponse.data) {
+          const data = fallbackResponse.data as any;
+          const newsArray = Array.isArray(data) ? data : (data.news || []);
+          const filtered = newsArray.filter((n: any) => n.id !== currentNewsId);
+          setRelatedNews(transformNewsItems(filtered).slice(0, 3));
+        }
+      }
+
+      setLoading(false);
+    };
+
+    fetchRelatedNews();
+  }, [currentNewsId, category]);
+
+  if (loading) {
+    return (
+      <div className="w-full flex flex-col gap-[40px] mt-[80px]">
+        <div className="flex items-center gap-4">
+          <TitleSection title="Related News" />
+          <div className="h-px grow bg-black/10"></div>
+        </div>
+        <div className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-md:grid-cols-1">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className="w-full h-[350px] rounded-[16px] bg-gray-100 animate-pulse"
+            />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (relatedNews.length === 0) return null;
@@ -36,12 +73,12 @@ export default function RelatedNews({
     <div className="w-full flex flex-col gap-[40px] mt-[80px]">
       <div className="flex items-center gap-4">
         <TitleSection title="Related News" />
-        <div className="h-[1px] flex-grow bg-black/10"></div>
+        <div className="h-px grow bg-black/10"></div>
       </div>
 
       <div className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-md:grid-cols-1">
         {relatedNews.map((news, index) => (
-          <Link href={`/news/${news.id}`} key={news.id} className="block group">
+          <Link href={`/news/${news.slug}`} key={news.id} className="block group">
             <motion.div
               variants={scaleInVariants}
               initial="hidden"
@@ -69,7 +106,7 @@ export default function RelatedNews({
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col p-5 gap-3 flex-grow">
+                <div className="flex flex-col p-5 gap-3 grow">
                   <div className="text-xs text-gray-400 font-medium uppercase tracking-wide">
                     {news.date}
                   </div>

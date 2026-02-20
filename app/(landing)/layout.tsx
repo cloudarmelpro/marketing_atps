@@ -1,15 +1,12 @@
 import Footer from "@/components/layout/Footer";
 import Navigation from "@/components/layout/Navigation";
-import React from "react";
 
-const LandingLayout = ({ children }: { children: React.ReactNode }) => {
+export default function LandingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-[#F7F6F7]">
+    <div className="min-h-screen flex flex-col bg-[#F7F6F7]">
       <Navigation />
-      {children}
+      <main className="grow">{children}</main>
       <Footer />
     </div>
   );
-};
-
-export default LandingLayout;
+}

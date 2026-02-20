@@ -7,8 +7,8 @@ import { Mail, LifeBuoy } from "lucide-react";
 
 export default function Contact() {
   return (
-    <div className="flex flex-row justify-center flex-start px-[324px] py-[200px] max-lg:px-4 max-lg:py-12">
-      <div className=" pt-20 md:pt-0 flex flex-col justify-center items-center gap-[60px] w-[1240px] h-[783px] max-lg:w-full max-lg:h-auto max-lg:gap-8">
+    <div className="flex justify-center px-4 lg:px-[324px] py-[200px] max-lg:py-12">
+      <div className="pt-20 md:pt-0 flex flex-col justify-center items-center gap-[60px] w-full max-w-[1240px] max-lg:gap-8">
         {/* Header */}
         <div className="flex flex-col w-[800px] h-[99px] max-lg:w-full max-lg:px-4 max-lg:h-auto">
           <div className="flex items-center flex-col gap-[11px] w-[800px] h-[99px] max-lg:w-full max-lg:h-auto">
@@ -72,7 +72,7 @@ export default function Contact() {
                 </h1>
               </div>
               <div className="flex flex-row items-center gap-[16px] w-[422px] h-[60px] max-lg:w-full">
-                <div className="w-[60px] h-[60px] flex-shrink-0">
+                <div className="w-[60px] h-[60px] shrink-0">
                   <Image
                     src="/images/imageCont.png"
                     alt="image contact"

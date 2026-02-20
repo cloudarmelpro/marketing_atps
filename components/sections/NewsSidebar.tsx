@@ -1,9 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ALL_NEWS, NEWS_CATEGORIES } from "@/lib/constants";
 import { Link2 } from "lucide-react";
+import { newsService } from "@/lib/api";
+import { transformNewsItems, type TransformedNewsItem } from "@/lib/api/transformers";
+import { SidebarSkeleton } from "@/components/ui/skeleton-card";
 
 interface NewsSidebarProps {
   currentNewsId: string;
@@ -20,10 +23,31 @@ export default function NewsSidebar({
   category,
   tags,
 }: NewsSidebarProps) {
-  // Logic for "More Insights" - related news
-  const moreInsights = ALL_NEWS.filter(
-    (item) => item.id !== currentNewsId,
-  ).slice(0, 4);
+  const [moreInsights, setMoreInsights] = useState<TransformedNewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      setLoading(true);
+
+      const response = await newsService.getRecentNews(5);
+
+      if (response.data) {
+        const data = response.data as any;
+        const newsArray = Array.isArray(data) ? data : (data.news || []);
+        const filtered = newsArray.filter((n: any) => n.id !== currentNewsId);
+        setMoreInsights(transformNewsItems(filtered).slice(0, 4));
+      }
+
+      setLoading(false);
+    };
+
+    fetchNews();
+  }, [currentNewsId]);
+
+  if (loading) {
+    return <SidebarSkeleton />;
+  }
 
   return (
     <aside className="w-full lg:w-[320px] flex flex-col gap-8">
@@ -82,37 +106,39 @@ export default function NewsSidebar({
       )}
 
       {/* More Insights */}
-      <div>
-        <h3 className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 mb-4">
-          More insights
-        </h3>
-        <div className="flex flex-col gap-4">
-          {moreInsights.map((item) => (
-            <Link
-              key={item.id}
-              href={`/news/${item.id}`}
-              className="group flex gap-3 items-center"
-            >
-              <div className="flex-1 min-w-0">
-                <h4 className="text-[13px] font-bold text-[#1B0C25] leading-tight group-hover:text-[#1B0C25]/70 transition-colors line-clamp-2">
-                  {item.title}
-                </h4>
-                <p className="text-[12px] text-gray-400 mt-1 truncate">
-                  {item.date}
-                </p>
-              </div>
-              <div className="relative w-14 h-10 shrink-0 rounded bg-gray-100 overflow-hidden">
-                <Image
-                  src={item.image || "/assets/placeholder.png"}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </Link>
-          ))}
+      {moreInsights.length > 0 && (
+        <div>
+          <h3 className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 mb-4">
+            More insights
+          </h3>
+          <div className="flex flex-col gap-4">
+            {moreInsights.map((item) => (
+              <Link
+                key={item.id}
+                href={`/news/${item.slug}`}
+                className="group flex gap-3 items-center"
+              >
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-[13px] font-bold text-[#1B0C25] leading-tight group-hover:text-[#1B0C25]/70 transition-colors line-clamp-2">
+                    {item.title}
+                  </h4>
+                  <p className="text-[12px] text-gray-400 mt-1 truncate">
+                    {item.date}
+                  </p>
+                </div>
+                <div className="relative w-14 h-10 shrink-0 rounded bg-gray-100 overflow-hidden">
+                  <Image
+                    src={item.image || "/assets/placeholder.png"}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </aside>
   );
 }

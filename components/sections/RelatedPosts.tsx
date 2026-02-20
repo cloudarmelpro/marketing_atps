@@ -5,9 +5,10 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { scaleInVariants, viewportSettings } from "@/lib/motion";
 import TitleSection from "../TitleSection";
+import type { TransformedBlogPost } from "@/lib/api/transformers";
 
 interface RelatedPostsProps {
-  posts: any[]; // Using any[] for now to match the flexible constants structure, ideally strictly typed
+  posts: TransformedBlogPost[];
 }
 
 export default function RelatedPosts({ posts }: RelatedPostsProps) {
@@ -17,12 +18,12 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
     <div className="w-full flex flex-col gap-[40px] mt-[80px]">
       <div className="flex items-center gap-4">
         <TitleSection title="Related Articles" />
-        <div className="h-[1px] flex-grow bg-black/10"></div>
+        <div className="h-px grow bg-black/10"></div>
       </div>
 
       <div className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-md:grid-cols-1">
         {posts.map((blog, index) => (
-          <Link href={`/Blog/${blog.id}`} key={blog.id} className="block group">
+          <Link href={`/blog/${blog.slug}`} key={blog.id} className="block group">
             <motion.div
               variants={scaleInVariants}
               initial="hidden"
@@ -51,8 +52,7 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
                   {/* Meta */}
                   <div className="flex items-center justify-between text-xs font-medium uppercase tracking-wider">
                     <span className="text-[#1B0C25]">
-                      {blog.title}{" "}
-                      {/* Using title as category based on data structure */}
+                      {blog.title}
                     </span>
                     <span className="text-gray-400">{blog.date}</span>
                   </div>

@@ -1,37 +1,58 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ALL_NEWS } from "@/lib/constants";
-import { FadeInUp, ScaleIn, StaggerContainer } from "@/lib/motion";
-import TitleSection from "@/components/TitleSection";
+import { FadeInUp } from "@/lib/motion";
 import RelatedNews from "@/components/sections/RelatedNews";
 import NewsSidebar from "@/components/sections/NewsSidebar";
+import { newsService } from "@/lib/api";
+import { transformNewsItem } from "@/lib/api/transformers";
+import type { Metadata } from "next";
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const response = await newsService.getNewsBySlug(slug);
+
+  if (response.error || !response.data) {
+    return { title: "News not found" };
+  }
+
+  const item = response.data;
+
+  return {
+    title: item.title,
+    description: item.excerpt || "",
+    openGraph: {
+      title: item.title,
+      description: item.excerpt || "",
+      images: item.coverImage ? [item.coverImage] : [],
+      type: "article",
+      publishedTime: item.publishedAt,
+    },
+  };
 }
 
 export default async function NewsDetail({ params }: PageProps) {
-  const { id } = await params;
-  const news = ALL_NEWS.find((item) => item.id === id);
+  const { slug } = await params;
+  const response = await newsService.getNewsBySlug(slug);
 
-  if (!news) {
+  if (response.error || !response.data) {
     notFound();
   }
 
+  const newsItem = response.data;
+  const news = transformNewsItem(newsItem);
+
   return (
-    <div className="flex flex-col items-center w-full min-h-screen bg-white">
-      {/* Hero Section (Full Width) */}
+    <div className="bg-white">
       <div className="w-full bg-[#121212] relative min-h-[400px] flex items-end pb-12 pt-32">
         {news.image && (
           <div className="absolute inset-0 opacity-40">
-            <Image
-              src={news.image}
-              alt={news.title}
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent" />
+            <Image src={news.image} alt={news.title} fill className="object-cover" />
+            <div className="absolute inset-0 bg-linear-to-t from-[#121212] via-[#121212]/50 to-transparent" />
           </div>
         )}
         <div className="container max-w-[1240px] px-6 mx-auto relative z-10">
@@ -54,30 +75,17 @@ export default async function NewsDetail({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Content + Sidebar Grid */}
-      <div className="w-full max-w-[1240px] px-4 md:px-0 py-12">
+      <div className="w-full max-w-[1240px] mx-auto px-4 md:px-0 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12">
-          {/* Main Content */}
           <div className="min-w-0">
             <div className="prose prose-lg max-w-none text-[#1B0C25]/80">
-              <div className="whitespace-pre-wrap leading-8">
-                {news.content}
-              </div>
+              <div className="whitespace-pre-wrap leading-8">{news.content}</div>
             </div>
 
             <div className="mt-12 pt-8 border-t border-gray-200">
               <Link href="/news">
                 <button className="text-[#1B0C25] font-semibold hover:text-[#1B0C25]/80 transition-colors flex items-center gap-2">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M19 12H5M12 19l-7-7 7-7" />
                   </svg>
                   Back to News
@@ -86,26 +94,21 @@ export default async function NewsDetail({ params }: PageProps) {
             </div>
           </div>
 
-          {/* Sidebar */}
           <div className="lg:block">
             <NewsSidebar
               currentNewsId={news.id}
-              source={(news as any).source}
-              sourceUrl={(news as any).sourceUrl}
-              category={news.category as string}
-              tags={(news as any).tags}
+              source={news.source}
+              sourceUrl={news.sourceUrl}
+              category={news.category}
+              tags={news.tags}
             />
           </div>
         </div>
       </div>
 
-      {/* Related News (Bottom) - kept as supplementary */}
       <div className="w-full px-[16px] bg-[#FAFAFA] py-20 flex justify-center">
         <div className="w-full max-w-[1240px]">
-          <RelatedNews
-            currentNewsId={news.id}
-            category={news.category as string}
-          />
+          <RelatedNews currentNewsId={news.id} category={news.category} />
         </div>
       </div>
     </div>
