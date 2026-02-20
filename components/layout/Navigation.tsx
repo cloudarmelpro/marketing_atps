@@ -129,7 +129,7 @@ const Navigation = () => {
               ? "rgba(255, 255, 255, 0.9)"
               : "var(--color-white--100)",
             boxShadow: isScrolled ? "0px 2px 6px rgba(0, 0, 0, 0.04)" : "none",
-            border: isScrolled ? "none" : "1px solid rgba(255, 255, 255, 0.4)",
+            border: isScrolled ? "none" : "1px solid #1B0C25",
           }}
         >
         <div
