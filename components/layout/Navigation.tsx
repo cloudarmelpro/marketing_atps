@@ -14,7 +14,7 @@ import {
 } from "@/lib/motion";
 
 const NAV_LIST = [
-  { id: 1, name: "Features", link: "#" },
+  { id: 1, name: "Features", link: "/" },
   { id: 2, name: "About", link: "/#about" },
   { id: 3, name: "Testimonial", link: "/#testimonial" },
   { id: 4, name: "Pricing", link: "/#pricing" },
@@ -110,7 +110,7 @@ const Navigation = () => {
       variants={navigationVariants}
       initial="hidden"
       animate="visible"
-      className="fixed z-100 flex items-center justify-center w-full transition-all duration-300 px-4 sm:px-6 lg:px-8"
+      className="fixed z-100 flex items-center justify-center w-full transition-all duration-300 px-[16px]"
       style={{
         height: getContainerHeight(),
         padding: getContainerPadding(),

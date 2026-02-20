@@ -26,7 +26,7 @@ export default function NewsPage() {
       </StaggerContainer>
 
       {/* News List Section */}
-      <div className="w-full max-w-[1200px] px-4 md:px-8">
+      <div className="w-full max-w-[1240px] px-4 md:px-0">
         <NewsList />
       </div>
     </div>

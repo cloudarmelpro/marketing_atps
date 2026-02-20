@@ -75,24 +75,28 @@ export default function NewsList() {
                       {news.excerpt}
                     </p>
 
-                    <div className="mt-auto flex items-center gap-2 text-sm font-medium text-[#1B0C25] group-hover:translate-x-1 transition-transform duration-300">
-                      Read Article
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M6 12L10 8L6 4"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
+                    {/* Author Section */}
+                    {news.author && (
+                      <div className="mt-auto pt-4 flex items-center gap-3 border-t border-gray-100">
+                        <div className="w-8 h-8 rounded-full bg-gray-100 overflow-hidden relative">
+                          {news.author.avatar ? (
+                            <Image
+                              src={news.author.avatar}
+                              alt={news.author.name}
+                              fill
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center w-full h-full text-gray-500 font-bold text-xs">
+                              {news.author.name.charAt(0)}
+                            </div>
+                          )}
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">
+                          {news.author.name}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Link>

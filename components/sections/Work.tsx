@@ -35,7 +35,7 @@ const LIST_WORK = [
 
 export default function Work() {
   return (
-    <>
+    <div className="px-[16px]">
       {/* J'ai uniquement AJOUTÉ des classes responsive, rien supprimé */}
       <div className="flex flex-row justify-center items-start px-[324px] py-[200px] h-[1299px] px-[16px] max-lg:px-4 max-lg:py-12 max-lg:h-auto">
         <motion.div
@@ -125,6 +125,6 @@ export default function Work() {
           </div>
         </motion.div>
       </div>
-    </>
+    </div>
   );
 }

@@ -33,6 +33,13 @@ export const ALL_BLOG_POSTS = [
     description: "Why Data Security is Vital for Every SaaS Platform",
     date: "Oct 10, 2024",
     imageBlog: "/assets/girl1.avif",
+    tags: ["Startup", "Security", "SaaS"],
+    author: { name: "John Doe", avatar: "/assets/user_b.png" },
+    content: `
+      <h2>Why Data Security Matters</h2>
+      <p>In the modern digital landscape, data security is not just a regulatory requirement; it's a cornerstone of customer trust. For SaaS platforms, ensuring the safety of user data is paramount.</p>
+      <p>Startups often overlook security in favor of speed, but this can be a fatal mistake. A single breach can destroy a company's reputation.</p>
+    `,
   },
   {
     id: "2",
@@ -40,6 +47,12 @@ export const ALL_BLOG_POSTS = [
     description: "Efficient Strategies for Scaling Your SaaS Business",
     date: "Mar 13, 2025",
     imageBlog: "/assets/boys.avif",
+    tags: ["SaaS", "Growth", "Business"],
+    author: { name: "Jane Doe", avatar: "/assets/user_g.png" },
+    content: `
+      <h2>Scaling Strategies</h2>
+      <p>Scaling a SaaS business requires a delicate balance between acquiring new customers and retaining existing ones. Efficient scaling involves optimizing your infrastructure, refining your marketing strategy, and ensuring your team is aligned.</p>
+    `,
   },
   {
     id: "3",
@@ -47,6 +60,12 @@ export const ALL_BLOG_POSTS = [
     description: "The Ultimate SaaS Template for Startups",
     date: "Feb 16, 2025",
     imageBlog: "/assets/girl2.avif",
+    tags: ["AI", "SaaS", "Startup"],
+    author: { name: "Jim Doe", avatar: "/assets/user_b.png" },
+    content: `
+      <h2>The AI Revolution</h2>
+      <p>AI is transforming the SaaS landscape. From chatbots to predictive analytics, integrating AI can give your startup a competitive edge.</p>
+    `,
   },
   // Originally BLOG_FEATURED_POSTS
   {
@@ -56,6 +75,11 @@ export const ALL_BLOG_POSTS = [
     date: "Dec 29, 2025",
     imageBlog: "/assets/pic.png",
     author: { name: "Dr. Shridhar Deshmukh", avatar: "/assets/user_g.png" },
+    tags: ["Security", "Exams", "Education"],
+    content: `
+      <h2>Maintaining Integrity</h2>
+      <p>Academic integrity is the foundation of educational value. In online exams, ensuring that the student taking the exam is who they say they are, and that they are not using unauthorized aids, is a significant challenge.</p>
+    `,
   },
   {
     id: "102",
@@ -64,6 +88,11 @@ export const ALL_BLOG_POSTS = [
     date: "Dec 22, 2025",
     imageBlog: "/assets/analystic_ad.avif",
     author: { name: "Adi Griever", avatar: "/assets/user_b.png" },
+    tags: ["EdTech", "Scalability", "Classroom"],
+    content: `
+      <h2>Digital Classrooms</h2>
+      <p>Scaling digital classrooms involves more than just adding servers. It requires a thoughtful approach to user experience, content delivery, and real-time interaction.</p>
+    `,
   },
   // Originally BLOG_FEED_POSTS
   {
@@ -160,6 +189,23 @@ export const ALL_BLOG_POSTS = [
     description: "The Future of E-Learning: Cloud-Based Platforms",
     date: "Feb 12, 2026",
     imageBlog: "/assets/cloud_learning.avif",
+    detailImage: "/assets/cloud_learning.avif",
+    tags: ["E-Learning", "Cloud", "Future"],
+    content: `
+      <h2>The Shift to Cloud-Based Learning</h2>
+      <p>Cloud computing has revolutionized many industries, and education is no exception. Cloud-based e-learning platforms offer unparalleled scalability, accessibility, and cost-effectiveness.</p>
+      
+      <h3>Benefits of Cloud LMS</h3>
+      <ul>
+        <li><strong>Accessibility:</strong> Learners can access content from anywhere, anytime, on any device.</li>
+        <li><strong>Scalability:</strong> Institutions can easily scale their operations to accommodate growing student numbers.</li>
+        <li><strong>Cost Savings:</strong> Reduced need for physical infrastructure and on-premise hardware.</li>
+      </ul>
+
+      <h3>Security in the Cloud</h3>
+      <p>While cloud platforms offer many benefits, security remains a top priority. Leading providers employ encryption, regular backups, and strict access controls to protect sensitive student data.</p>
+    `,
+    author: { name: "Admin", avatar: "" },
   },
 ];
 
@@ -188,6 +234,9 @@ export const ALL_NEWS = [
     content:
       "As we move into 2026, online education is poised for a major transformation. From immersive technologies to AI-driven personalization, the landscape is shifting rapidly. Institutions that adapt to these changes will be better positioned to serve their students and faculty. Key trends include the rise of micro-credentials, the integration of VR/AR in classrooms, and a renewed focus on accessibility.",
     author: { name: "Dr. Carlota Soto", avatar: "" },
+    tags: ["EdTech", "Future", "Education"],
+    source: "EdTech Magazine",
+    sourceUrl: "https://edtechmagazine.com",
   },
   {
     id: "104",
@@ -200,6 +249,9 @@ export const ALL_NEWS = [
     content:
       "Security in online exams is a top priority for educational institutions. with the proliferation of remote learning, ensuring that assessments are fair and valid is more challenging than ever. New technologies, such as AI-proctoring and secure browser lockdowns, are helping to mitigate risks. However, balancing security with user privacy remains a key concern for administrators.",
     author: { name: "Dr. Carlota Soto", avatar: "/assets/user_b.png" },
+    tags: ["Security", "Exams", "Proctoring"],
+    source: "Security Weekly",
+    sourceUrl: "https://securityweekly.com",
   },
   {
     id: "105",
@@ -209,6 +261,9 @@ export const ALL_NEWS = [
     excerpt:
       "Strategies for managing large online classes without compromising engagement or educational quality.",
     image: "/assets/smart.avif",
+    source: "EdSurge",
+    sourceUrl: "https://edsurge.com",
+    tags: ["Best Practices", "Large Classes", "Engagement"],
     content:
       "Managing large digital classrooms requires a different approach than traditional lecturing. Instructors need to leverage tools that allow for scalable interaction, such as breakout rooms, automated quizzes, and peer review systems. This article explores best practices for keeping hundreds of students engaged simultaneously while maintaining a personal connection.",
     author: { name: "Admin", avatar: "" },
@@ -221,6 +276,9 @@ export const ALL_NEWS = [
     excerpt:
       "Explore how AI-powered grading can reduce instructor workload and provide instant feedback to students.",
     image: "/assets/ia_p.avif",
+    source: "AI in Education",
+    sourceUrl: "https://aieducation.com",
+    tags: ["AI", "Grading", "EdTech"],
     content:
       "AI is revolutionizing the grading process. By automating the assessment of quizzes and even essays, instructors can save valuable time and provide students with immediate, actionable feedback. This shift allows educators to focus more on mentorship and less on administrative tasks.",
     author: { name: "Pedro Figueiredo", avatar: "/assets/user_g.png" },
@@ -233,6 +291,9 @@ export const ALL_NEWS = [
     excerpt:
       "Interactive modules keep students engaged and improve knowledge retention compared to traditional static content.",
     image: "/assets/data_m.avif",
+    source: "eLearning Industry",
+    sourceUrl: "https://elearningindustry.com",
+    tags: ["Learning Tools", "Interactive", "Engagement"],
     content:
       "Static PDFs and long video lectures are becoming things of the past. Interactive learning modules, which require active student participation, have been shown to significantly boost engagement and retention rates. Gamification elements, quizzes, and simulations are just a few examples of how interactivity can be woven into the curriculum.",
     author: { name: "Dr. Carlota Soto", avatar: "/assets/user_b.png" },
@@ -245,6 +306,9 @@ export const ALL_NEWS = [
     excerpt:
       "Quizzes shouldn't just be for grades. Learn how to design assessments that reinforce learning and identify gaps.",
     image: "/assets/adaptive.avif",
+    source: "Faculty Focus",
+    sourceUrl: "https://facultyfocus.com",
+    tags: ["Assessment", "Quizzes", "Design"],
     content:
       "Effective quizzes do more than just measure performance; they reinforce learning. By designing questions that require critical thinking and providing detailed feedback, instructors can turn assessments into powerful learning tools. This article covers the principles of good quiz design, including distractor analysis and question variety.",
     author: { name: "John Doe", avatar: "" },
@@ -257,6 +321,9 @@ export const ALL_NEWS = [
     excerpt:
       "As education moves online, the integrity of exams becomes paramount. Here's why security matters.",
     image: "/assets/online_exam.avif",
+    source: "Chronicle of Higher Ed",
+    sourceUrl: "https://chronicle.com",
+    tags: ["Security", "Online Exams", "Higher Ed"],
     content:
       "The shift to online education has brought about a need for robust security measures in examinations. Without secure testing environments, the value of online degrees and certifications could be compromised. We discuss the importance of secure browsers, identity verification, and plagiarism detection in maintaining the credibility of online education.",
     author: { name: "Jane Doe", avatar: "" },
@@ -269,6 +336,9 @@ export const ALL_NEWS = [
     excerpt:
       "A guide to creating quizzes that accurately measure student understanding and progress.",
     image: "/assets/quiz_strategy.avif",
+    source: "The Edvocate",
+    sourceUrl: "https://theedvocate.org",
+    tags: ["Assessment", "Strategies", "Quizzes"],
     content:
       "Creating an effective online quiz involves more than just writing questions. It requires careful consideration of learning objectives, question formats, and timing. This guide provides actionable tips for educators looking to improve their online assessment strategies.",
     author: { name: "Jim Doe", avatar: "" },
@@ -281,6 +351,9 @@ export const ALL_NEWS = [
     excerpt:
       "Proctoring technology is evolving. See how modern solutions help maintain academic standards.",
     image: "/assets/proctoring.avif",
+    source: "TechCrunch",
+    sourceUrl: "https://techcrunch.com",
+    tags: ["Proctoring", "Integrity", "Technology"],
     content:
       "Proctored exams are a cornerstone of academic integrity in online learning. Modern proctoring solutions use a combination of AI and human oversight to monitor exams and prevent cheating. We explore the latest advancements in this field and how they are being adopted by institutions worldwide.",
     author: { name: "Admin", avatar: "" },
@@ -293,6 +366,9 @@ export const ALL_NEWS = [
     excerpt:
       "Automation can save time and improve consistency in student evaluations. Here are some tips to get started.",
     image: "/assets/automation.avif",
+    source: "EdSurge",
+    sourceUrl: "https://edsurge.com",
+    tags: ["Automation", "Workflow", "Efficiency"],
     content:
       "Automating student evaluations can streamline the grading process and ensure that feedback is consistent and timely. We discuss various tools and strategies for automating evaluations, from rubric-based grading to AI-powered assessment platforms.",
     author: { name: "Admin", avatar: "" },
@@ -305,6 +381,9 @@ export const ALL_NEWS = [
     excerpt:
       "Data analytics provides valuable insights into student performance. Learn how to leverage data for better outcomes.",
     image: "/assets/analytics.avif",
+    source: "Data Science Central",
+    sourceUrl: "https://datasciencecentral.com",
+    tags: ["Analytics", "Data", "Performance"],
     content:
       "Data analytics is transforming the field of e-learning. By analyzing student data, educators can identify at-risk students, personalize learning paths, and improve overall course effectiveness. We explore the key metrics to track and how to interpret them.",
     author: { name: "Admin", avatar: "" },
@@ -317,6 +396,9 @@ export const ALL_NEWS = [
     excerpt:
       "Interactive learning modules can make a big difference in student engagement. Here's how to create them.",
     image: "/assets/interactive.avif",
+    source: "Learning Solutions",
+    sourceUrl: "https://learningsolutionsmag.com",
+    tags: ["Engagement", "Modules", "Learning"],
     content:
       "Interactive learning modules are a powerful tool for engaging students. By incorporating quizzes, simulations, and other interactive elements, educators can create a more dynamic and effective learning experience. We provide tips and examples for designing secure and engaging interactive modules.",
     author: { name: "Admin", avatar: "" },
@@ -329,6 +411,9 @@ export const ALL_NEWS = [
     excerpt:
       "Cloud-based platforms are the future of e-learning. Discover the benefits of moving to the cloud.",
     image: "/assets/cloud_learning.avif",
+    source: "Cloud Computing News",
+    sourceUrl: "https://cloudcomputing.com",
+    tags: ["Cloud", "E-Learning", "Scalability"],
     content:
       "Cloud-based platforms offer numerous advantages for e-learning, including scalability, accessibility, and cost-effectiveness. We discuss the trends driving the adoption of cloud-based learning management systems and what the future holds for this technology.",
     author: { name: "Admin", avatar: "" },

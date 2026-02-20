@@ -5,6 +5,7 @@ import { ALL_NEWS } from "@/lib/constants";
 import { FadeInUp, ScaleIn, StaggerContainer } from "@/lib/motion";
 import TitleSection from "@/components/TitleSection";
 import RelatedNews from "@/components/sections/RelatedNews";
+import NewsSidebar from "@/components/sections/NewsSidebar";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -20,95 +21,87 @@ export default async function NewsDetail({ params }: PageProps) {
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen bg-white">
-      {/* Hero / Header */}
-      <StaggerContainer className="w-full max-w-[900px] flex flex-col items-center px-6 pt-[140px] pb-[60px] gap-8 text-center">
-        <FadeInUp>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold uppercase tracking-wider text-[#1B0C25] mb-4">
-            <span>{news.category}</span>
-            <span className="w-1 h-1 rounded-full bg-gray-400"></span>
-            <span>{news.date}</span>
+      {/* Hero Section (Full Width) */}
+      <div className="w-full bg-[#121212] relative min-h-[400px] flex items-end pb-12 pt-32">
+        {news.image && (
+          <div className="absolute inset-0 opacity-40">
+            <Image
+              src={news.image}
+              alt={news.title}
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/50 to-transparent" />
           </div>
-        </FadeInUp>
-
-        <FadeInUp delay={0.1}>
-          <h1 className="text-4xl md:text-5xl lg:text-[56px] font-bold text-[#1B0C25] leading-tight">
-            {news.title}
-          </h1>
-        </FadeInUp>
-
-        {news.author && (
-          <FadeInUp delay={0.2} className="flex items-center gap-3 mt-2">
-            <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden relative">
-              {news.author.avatar ? (
-                <Image
-                  src={news.author.avatar}
-                  alt={news.author.name}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <div className="flex items-center justify-center w-full h-full text-gray-500 font-bold">
-                  {news.author.name.charAt(0)}
-                </div>
-              )}
-            </div>
-            <div className="text-left">
-              <p className="text-sm font-bold text-[#1B0C25]">
-                {news.author.name}
-              </p>
-              <p className="text-xs text-gray-500">Author</p>
+        )}
+        <div className="container max-w-[1240px] px-6 mx-auto relative z-10">
+          <FadeInUp>
+            <div className="flex flex-col gap-4">
+              <p className="text-gray-400 text-sm font-medium">{news.date}</p>
+              <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight max-w-[900px]">
+                {news.title}
+              </h1>
+              <div className="flex items-center gap-3">
+                {news.category && (
+                  <span className="px-3 py-1 bg-white text-black text-xs font-bold uppercase rounded-sm">
+                    {news.category}
+                  </span>
+                )}
+                <p className="text-gray-300 font-medium">{news.excerpt}</p>
+              </div>
             </div>
           </FadeInUp>
-        )}
-      </StaggerContainer>
-
-      {/* Main Image */}
-      <ScaleIn className="w-full max-w-[1000px] px-6 mb-12">
-        <div className="rounded-2xl overflow-hidden shadow-2xl relative aspect-video">
-          <Image
-            src={news.image || "/assets/placeholder.png"}
-            alt={news.title}
-            fill
-            className="object-cover"
-          />
         </div>
-      </ScaleIn>
+      </div>
 
-      {/* Content */}
-      <StaggerContainer className="w-full max-w-[800px] px-6 pb-20">
-        <FadeInUp className="prose prose-lg max-w-none text-[#1B0C25]/80">
-          <p className="text-xl font-medium leading-relaxed text-[#1B0C25] mb-8">
-            {news.excerpt}
-          </p>
+      {/* Content + Sidebar Grid */}
+      <div className="w-full max-w-[1240px] px-4 md:px-0 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12">
+          {/* Main Content */}
+          <div className="min-w-0">
+            <div className="prose prose-lg max-w-none text-[#1B0C25]/80">
+              <div className="whitespace-pre-wrap leading-8">
+                {news.content}
+              </div>
+            </div>
 
-          {/* Minimal content rendering - in a real app this would be a rich text renderer */}
-          <div className="whitespace-pre-wrap leading-8">{news.content}</div>
-
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <Link href="/news">
-              <button className="text-[#1B0C25] font-semibold hover:text-[#1B0C25]/80 transition-colors flex items-center gap-2">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M19 12H5M12 19l-7-7 7-7" />
-                </svg>
-                Back to News
-              </button>
-            </Link>
+            <div className="mt-12 pt-8 border-t border-gray-200">
+              <Link href="/news">
+                <button className="text-[#1B0C25] font-semibold hover:text-[#1B0C25]/80 transition-colors flex items-center gap-2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                  Back to News
+                </button>
+              </Link>
+            </div>
           </div>
-        </FadeInUp>
-      </StaggerContainer>
 
-      {/* Related News */}
-      <div className="w-full bg-[#FAFAFA] py-20 flex justify-center">
-        <div className="w-full max-w-[1200px] px-6">
+          {/* Sidebar */}
+          <div className="lg:block">
+            <NewsSidebar
+              currentNewsId={news.id}
+              source={(news as any).source}
+              sourceUrl={(news as any).sourceUrl}
+              category={news.category as string}
+              tags={(news as any).tags}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Related News (Bottom) - kept as supplementary */}
+      <div className="w-full px-[16px] bg-[#FAFAFA] py-20 flex justify-center">
+        <div className="w-full max-w-[1240px]">
           <RelatedNews
             currentNewsId={news.id}
             category={news.category as string}

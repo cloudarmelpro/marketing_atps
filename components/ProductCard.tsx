@@ -127,7 +127,7 @@ function Card({
   return (
     <div
       ref={container}
-      className="h-[80vh] flex items-center justify-center sticky top-0 w-full px-4 sm:px-6 lg:px-8"
+      className="h-[80vh] flex items-center justify-center sticky top-0 w-full"
       style={{ zIndex: index }}
     >
       <motion.div

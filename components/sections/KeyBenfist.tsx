@@ -13,7 +13,7 @@ import {
 
 export default function KeyBenfist() {
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-[16px]">
       <motion.div
         variants={benefitContainerVariants}
         initial="hidden"

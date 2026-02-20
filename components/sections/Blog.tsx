@@ -12,7 +12,7 @@ import {
 
 export default function BlogSection() {
   return (
-    <section className="py-16 max-lg:py-12 max-md:py-8">
+    <section className="py-16 px-[16px] max-lg:py-12 max-md:py-8">
       <div className="flex flex-col mb-[40px] px-[324px] max-lg:px-4 max-md:px-4">
         <div className="flex flex-col gap-[40px] max-lg:gap-6 max-md:gap-4">
           {/* Header avec flex column sur mobile */}

@@ -5,10 +5,10 @@ import TitleSection from "@/components/TitleSection";
 
 export default function BlogPage() {
   return (
-    <div className="bg-[#F7F6F7] min-h-screen flex flex-col">
+    <div className="bg-[#F7F6F7] min-h-screen flex flex-col px-[16px]">
       <Navigation />
 
-      <main className="flex-grow pt-32 pb-20 px-4 sm:px-8 lg:px-16 xl:px-32">
+      <main className="flex-grow pt-32 pb-20 px-4 px-[324px]">
         <div className="max-w-[1440px] mx-auto">
           <div className="flex flex-col items-center text-center mb-16 gap-6">
             <TitleSection
