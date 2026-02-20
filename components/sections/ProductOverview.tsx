@@ -1,6 +1,7 @@
 "use client";
 import ProductCard from "../ProductCard";
 import TitleSection from "../TitleSection";
+import { Container } from "../ui/container";
 import { motion } from "framer-motion";
 import {
   fadeInUpVariants,
@@ -10,9 +11,8 @@ import {
 
 export default function ProductOverview() {
   return (
-    <div className="px-[16px]">
-      <div className="py-6 sm:py-8 lg:py-10">
-        <div className="flex flex-col items-center max-w-7xl mx-auto">
+    <div className="py-6 sm:py-8 lg:py-10">
+      <Container className="flex flex-col items-center">
           {/* Header Section */}
           <motion.div
             variants={fadeInUpVariants}
@@ -45,10 +45,8 @@ export default function ProductOverview() {
             </motion.div>
           </motion.div>
 
-          {/* Product Cards */}
-          <ProductCard />
-        </div>
-      </div>
+        <ProductCard />
+      </Container>
     </div>
   );
 }

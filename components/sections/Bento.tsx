@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import TitleSection from "../TitleSection";
+import { Container } from "../ui/container";
 import { motion } from "framer-motion";
 import {
   fadeInUpVariants,
@@ -12,12 +13,9 @@ import {
 
 export default function Bento() {
   return (
-    <div id="bento" className="px-[16px]">
-      <div
-        id="bento"
-        className="w-full min-h-[1664px] px-4 sm:px-6 lg:px-8 xl:px-[324px] py-12 lg:py-[200px] flex items-center justify-center"
-      >
-        <div className="w-full max-w-[1240px]">
+    <div id="bento">
+      <div className="w-full min-h-[1664px] py-12 lg:py-[200px] flex items-center justify-center">
+        <Container>
           <motion.div
             variants={bentoContainerVariants}
             initial="hidden"
@@ -62,7 +60,7 @@ export default function Bento() {
                   variants={bentoCardVariants}
                   className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[496.81px] bg-white shadow-sm rounded-2xl"
                 >
-                  <div className="w-full aspect-[480/354] rounded-xl overflow-hidden">
+                  <div className="w-full aspect-480/354 rounded-xl overflow-hidden">
                     <Image
                       src="/images/imageAd.png"
                       alt="Adaptive Learning"
@@ -87,7 +85,7 @@ export default function Bento() {
                   variants={bentoCardVariants}
                   className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[719px] bg-white shadow-sm rounded-2xl"
                 >
-                  <div className="w-full aspect-[703/353] rounded-xl overflow-hidden">
+                  <div className="w-full aspect-703/353 rounded-xl overflow-hidden">
                     <Image
                       src="/images/imageSm.png"
                       alt="Smart Automation"
@@ -115,7 +113,7 @@ export default function Bento() {
                   variants={bentoCardVariants}
                   className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[806px] bg-white shadow-sm rounded-2xl"
                 >
-                  <div className="w-full aspect-[790/353] rounded-xl overflow-hidden">
+                  <div className="w-full aspect-790/353 rounded-xl overflow-hidden">
                     <Image
                       src="/images/imageData.png"
                       alt="Data Mapping"
@@ -141,7 +139,7 @@ export default function Bento() {
                   variants={bentoCardVariants}
                   className="flex flex-col items-center gap-4 lg:gap-[30px] p-2 sm:p-4 lg:p-[8px] w-full lg:w-[410px] bg-white shadow-sm rounded-2xl"
                 >
-                  <div className="w-full aspect-[394/355] rounded-xl overflow-hidden">
+                  <div className="w-full aspect-394/355 rounded-xl overflow-hidden">
                     <Image
                       src="/images/imagePred.png"
                       alt="Predictive Analytics"
@@ -163,7 +161,7 @@ export default function Bento() {
               </div>
             </motion.div>
           </motion.div>
-        </div>
+        </Container>
       </div>
     </div>
   );

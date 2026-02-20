@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import TitleSection from "../TitleSection";
 import { Button } from "../ui/button";
+import { Container } from "../ui/container";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -71,9 +72,9 @@ export default function Testimonials() {
   const currentTestimonial = TESTIMONIALS_DATA[currentIndex];
 
   return (
-    <div className="px-[16px]" id="testimonials">
-      <div className="px-4 rounded-[16px] sm:px-6 lg:px-8 min-h-[800px] lg:h-[932px] bg-[url('/images/testBg.png')] bg-cover bg-center">
-        <div className="px-4 sm:px-6 lg:px-8 xl:px-[374px] py-12 sm:py-16 lg:py-20 xl:py-[140px] flex flex-col items-center justify-center gap-6 sm:gap-8 lg:gap-[60px]">
+    <div className="px-4" id="testimonials">
+      <div className="rounded-[16px] min-h-[800px] lg:h-[932px] bg-[url('/images/testBg.png')] bg-cover bg-center">
+        <Container className="py-12 sm:py-16 lg:py-20 xl:py-[140px] flex flex-col items-center justify-center gap-6 sm:gap-8 lg:gap-[60px]">
           {/* Header Section */}
           <div className="flex items-center justify-center gap-4 sm:gap-6 lg:gap-[60px] flex-col w-full">
             {/* Title Section */}
@@ -143,7 +144,7 @@ export default function Testimonials() {
 
                             {/* Author Info */}
                             <div className="flex gap-3 sm:gap-[16px] items-center">
-                              <div className="flex-shrink-0 w-10 h-10 sm:w-[60px] sm:h-[60px] rounded-full overflow-hidden">
+                              <div className="shrink-0 w-10 h-10 sm:w-[60px] sm:h-[60px] rounded-full overflow-hidden">
                                 <Image
                                   src={currentTestimonial.image}
                                   width={60}
@@ -222,7 +223,7 @@ export default function Testimonials() {
 
                   {/* Brand Logos */}
                   <div className="w-full px-4 sm:px-0">
-                    <div className="relative w-full aspect-[1140/41] max-w-[1140px] mx-auto">
+                    <div className="relative w-full aspect-1140/41 max-w-[1140px] mx-auto">
                       <Image
                         src="/images/logo_test.png"
                         fill
@@ -236,7 +237,7 @@ export default function Testimonials() {
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </div>
     </div>
   );

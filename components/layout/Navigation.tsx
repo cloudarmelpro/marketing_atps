@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
+import { Container } from "../ui/container";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -66,9 +67,9 @@ const Navigation = () => {
   };
 
   const getNavWidth = () => {
-    if (isMobile) return "calc(100% - 32px)";
-    if (isTablet) return isScrolled ? "90%" : "95%";
-    return isScrolled ? "700px" : "1240px";
+    if (isMobile) return "100%";
+    if (isTablet) return isScrolled ? "90%" : "100%";
+    return isScrolled ? "700px" : "100%";
   };
 
   const getNavHeight = () => {
@@ -110,26 +111,27 @@ const Navigation = () => {
       variants={navigationVariants}
       initial="hidden"
       animate="visible"
-      className="fixed z-100 flex items-center justify-center w-full transition-all duration-300 px-[16px]"
+      className="fixed z-100 w-full transition-all duration-300"
       style={{
         height: getContainerHeight(),
         padding: getContainerPadding(),
       }}
     >
-      <motion.div
-        variants={navigationVariants}
-        className="flex items-center justify-center transition-all duration-300 rounded-[14px] backdrop-blur-[3px] mx-auto"
-        style={{
-          width: getNavWidth(),
-          height: getNavHeight(),
-          padding: getNavPadding(),
-          background: isScrolled
-            ? "rgba(255, 255, 255, 0.9)"
-            : "var(--color-white--100)",
-          boxShadow: isScrolled ? "0px 2px 6px rgba(0, 0, 0, 0.04)" : "none",
-          border: isScrolled ? "none" : "1px solid rgba(255, 255, 255, 0.4)",
-        }}
-      >
+      <Container className="h-full flex items-center justify-center">
+        <motion.div
+          variants={navigationVariants}
+          className="flex items-center justify-center transition-all duration-300 rounded-[14px] backdrop-blur-[3px]"
+          style={{
+            width: getNavWidth(),
+            height: getNavHeight(),
+            padding: getNavPadding(),
+            background: isScrolled
+              ? "rgba(255, 255, 255, 0.9)"
+              : "var(--color-white--100)",
+            boxShadow: isScrolled ? "0px 2px 6px rgba(0, 0, 0, 0.04)" : "none",
+            border: isScrolled ? "none" : "1px solid rgba(255, 255, 255, 0.4)",
+          }}
+        >
         <div
           className="flex items-center transition-all duration-300 w-full"
           style={{
@@ -282,7 +284,8 @@ const Navigation = () => {
             </button>
           )}
         </div>
-      </motion.div>
+        </motion.div>
+      </Container>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>

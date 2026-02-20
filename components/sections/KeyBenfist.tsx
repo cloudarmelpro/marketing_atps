@@ -4,6 +4,7 @@
 import React from "react";
 import TitleSection from "../TitleSection";
 import BenefistCard from "../BenefistCard";
+import { Container } from "../ui/container";
 import { motion } from "framer-motion";
 import {
   fadeInUpVariants,
@@ -13,15 +14,14 @@ import {
 
 export default function KeyBenfist() {
   return (
-    <div className="px-[16px]">
-      <motion.div
-        variants={benefitContainerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportSettings}
-        className="px-4 sm:px-6 lg:px-8 xl:px-[324px] py-12 sm:py-16 lg:py-[200px]"
-      >
-        <div className="flex items-center flex-col gap-6 sm:gap-8 lg:gap-[60px]">
+    <motion.div
+      variants={benefitContainerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewportSettings}
+      className="py-12 sm:py-16 lg:py-[200px]"
+    >
+      <Container className="flex items-center flex-col gap-6 sm:gap-8 lg:gap-[60px]">
           {/* Header Section */}
           <motion.div
             variants={fadeInUpVariants}
@@ -48,12 +48,10 @@ export default function KeyBenfist() {
             </div>
           </motion.div>
 
-          {/* Benefits Card */}
-          <div className="w-full">
-            <BenefistCard />
-          </div>
+        <div className="w-full">
+          <BenefistCard />
         </div>
-      </motion.div>
-    </div>
+      </Container>
+    </motion.div>
   );
 }

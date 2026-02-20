@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import TitleSection from "../TitleSection";
+import { Container } from "../ui/container";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const paragraph =
@@ -17,22 +18,17 @@ export default function About() {
   const words = paragraph.split(" ");
 
   return (
-    <div id="about" className="px-[16px]">
+    <div id="about" className="px-4">
       <div ref={container} className="relative h-[200vh]">
         <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden bg-[#1b0c25] rounded-2xl px-4 sm:px-6">
-          {/* Background Elements */}
           <div className="absolute inset-0 z-0">
-            {/* Desktop gradients */}
             <div className="hidden lg:block absolute left-[-246px] top-[-186px] rounded-[603px] w-[658px] h-[548px] bg-[linear-gradient(148deg,#80a9fc_0%,#d37bff_31.09%,#fcab83_70.46%,#ff49d4_100%)] blur-[80px] opacity-[0.4]" />
             <div className="hidden lg:block absolute right-[-86px] top-[590px] rounded-[603px] w-[658px] h-[548px] bg-[linear-gradient(145deg,#efe8f6_0%,#d588fb_60.83%,#ff49d4_100%)] blur-[80px] opacity-[0.4]" />
-
-            {/* Mobile/Tablet gradient */}
             <div className="lg:hidden absolute inset-0 bg-[linear-gradient(148deg,#80a9fc_-20%,#d37bff_30%,#fcab83_80%,#ff49d4_120%)] opacity-20" />
           </div>
 
-          {/* Content Container */}
-          <div className="relative z-10 flex flex-col items-center lg:items-start justify-center px-6 sm:px-8 lg:px-16 xl:px-[544px]">
-            <div className="flex flex-col items-center lg:items-start gap-4 sm:gap-5 lg:gap-[40px] max-w-4xl lg:max-w-none">
+          <Container className="relative z-10">
+            <div className="flex flex-col items-center lg:items-start gap-4 sm:gap-5 lg:gap-[40px]">
               <TitleSection title="About" />
 
               <h2 className="flex flex-wrap text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[57px] text-center lg:text-left leading-snug sm:leading-snug md:leading-tight lg:leading-tight xl:leading-[66px] font-medium text-white">
@@ -47,11 +43,11 @@ export default function About() {
                     >
                       {word}
                     </Word>
-                  );
-                })}
-              </h2>
+                );
+              })}
+            </h2>
             </div>
-          </div>
+          </Container>
         </div>
       </div>
     </div>

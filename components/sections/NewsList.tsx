@@ -4,10 +4,11 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { StaggerContainer } from "@/lib/motion";
+import { scaleInVariants, viewportSettings } from "@/lib/motion";
 import { newsService } from "@/lib/api";
 import { transformNewsItems, type TransformedNewsItem } from "@/lib/api/transformers";
 import { NewsListSkeleton } from "@/components/ui/skeleton-card";
+import TitleSection from "@/components/TitleSection";
 import type { NewsQueryParams, PaginationInfo } from "@/lib/types";
 
 export default function NewsList() {
@@ -103,7 +104,7 @@ export default function NewsList() {
   return (
     <div className="w-full flex flex-col gap-12">
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 justify-center">
+      <div className="flex flex-wrap gap-3 justify-start">
         {categories.map((category) => (
           <button
             key={category}
@@ -120,75 +121,51 @@ export default function NewsList() {
       </div>
 
       {/* Grid */}
-      <StaggerContainer className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-md:grid-cols-1">
+      <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
         <AnimatePresence mode="popLayout">
-          {news.map((item) => (
-            <motion.div
-              key={item.id}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Link href={`/news/${item.slug}`} className="block group h-full">
-                <div className="flex flex-col h-full bg-white rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300">
-                  {/* Image */}
-                  <div className="relative h-60 w-full overflow-hidden">
+          {news.map((item, index) => (
+            <Link href={`/news/${item.slug}`} key={item.id} className="block">
+              <motion.div
+                layout
+                variants={scaleInVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportSettings}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.1,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
+                className="rounded-[16px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-lg transition-shadow"
+              >
+                <div className="flex flex-col items-center py-2 gap-6 max-lg:gap-4">
+                  <div className="w-[calc(100%-16px)] aspect-video rounded-xl overflow-hidden relative">
                     <Image
                       src={item.image || "/assets/placeholder.png"}
                       alt={item.title}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover"
                     />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide text-[#1B0C25]">
-                      {item.category}
-                    </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="flex flex-col grow p-6 gap-4">
-                    <div className="text-sm text-gray-500 font-medium">
-                      {item.date}
+                  <div className="w-full flex flex-col gap-4 px-2 pb-4 max-lg:gap-3">
+                    <div className="flex items-center justify-between px-4 max-lg:px-3">
+                      <TitleSection title={item.category || "News"} />
+                      <p className="text-sm text-gray-500">{item.date}</p>
                     </div>
 
-                    <h3 className="text-xl font-bold text-[#1B0C25] leading-snug group-hover:text-[#1B0C25]/80 transition-colors line-clamp-2">
-                      {item.title}
-                    </h3>
-
-                    <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
-                      {item.excerpt}
-                    </p>
-
-                    {/* Author Section */}
-                    {item.author && (
-                      <div className="mt-auto pt-4 flex items-center gap-3 border-t border-gray-100">
-                        <div className="w-8 h-8 rounded-full bg-gray-100 overflow-hidden relative">
-                          {item.author.avatar ? (
-                            <Image
-                              src={item.author.avatar}
-                              alt={item.author.name}
-                              fill
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="flex items-center justify-center w-full h-full text-gray-500 font-bold text-xs">
-                              {item.author.name.charAt(0)}
-                            </div>
-                          )}
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">
-                          {item.author.name}
-                        </span>
-                      </div>
-                    )}
+                    <div className="px-4 max-lg:px-3">
+                      <p className="font-medium text-xl lg:text-[23px] leading-7 text-[#1b0c25] line-clamp-2">
+                        {item.title}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </Link>
-            </motion.div>
+              </motion.div>
+            </Link>
           ))}
         </AnimatePresence>
-      </StaggerContainer>
+      </div>
 
       {news.length === 0 && !loading && (
         <div className="text-center py-20 text-gray-500">

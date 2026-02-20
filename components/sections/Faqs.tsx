@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import TitleSection from "../TitleSection";
+import { Container } from "../ui/container";
 import { Plus, Minus } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -43,8 +44,8 @@ export default function Faqs() {
   };
 
   return (
-    <div className="flex justify-center items-center px-4 sm:px-6 lg:px-8 xl:px-[340px] py-12 sm:py-16 lg:py-20 xl:py-[100px]">
-      <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-[60px] p-4 sm:p-6 lg:p-8 xl:p-[40px] w-full max-w-[1240px] bg-white rounded-2xl">
+    <div className="py-12 sm:py-16 lg:py-20 xl:py-[100px]">
+      <Container className="flex flex-col lg:flex-row items-start gap-6 lg:gap-[60px] p-4 sm:p-6 lg:p-8 xl:p-[40px] bg-white rounded-2xl">
         {/* Left Column - Static Content */}
         <motion.div
           variants={fadeInUpVariants}
@@ -110,7 +111,7 @@ export default function Faqs() {
                   <p className="text-base sm:text-lg lg:text-[22px] pr-2 text-[#1b0c25] leading-snug lg:leading-[28px] font-medium">
                     {faq.question}
                   </p>
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     {openIndex === index ? (
                       <Minus className="w-5 h-5 sm:w-6 sm:h-6 text-[#1b0c25]" />
                     ) : (
@@ -139,7 +140,7 @@ export default function Faqs() {
             ))}
           </div>
         </motion.div>
-      </div>
+      </Container>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import TitleSection from "../TitleSection";
 import { Button } from "../ui/button";
+import { Container } from "../ui/container";
 import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 import {
@@ -64,16 +65,15 @@ export default function Pricing() {
   const [isAnnual, setIsAnnual] = useState(false);
 
   return (
-    <div id="pricing" className="px-[16px]">
-      <div className="flex flex-row justify-center items-center px-[324px] py-[100px] max-lg:px-4 max-lg:py-12">
-        <div className="flex flex-col gap-[24px] h-[761.5px]">
+    <div id="pricing" className="py-12 lg:py-[100px]">
+      <Container className="flex flex-col gap-[24px]">
           {/* Header Section */}
           <motion.div
             variants={fadeInUpVariants}
             initial="hidden"
             whileInView="visible"
             viewport={viewportSettings}
-            className="flex flex-col items-center gap-[40px] w-[1240px] h-[234px] max-lg:w-full max-lg:h-auto max-lg:gap-6"
+            className="flex flex-col items-center gap-[40px] w-full max-lg:gap-6"
           >
             {/* Title & Description */}
             <div className="flex flex-col items-center gap-[24px] w-[800px] h-[151px] max-lg:w-full max-lg:px-4 max-lg:h-auto">
@@ -112,28 +112,25 @@ export default function Pricing() {
             </div>
           </motion.div>
 
-          {/* Pricing Cards Grid */}
           <motion.div
             variants={pricingContainerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={viewportSettings}
-            className="flex flex-row justify-between w-[1240px] h-[504px] max-lg:grid max-lg:grid-cols-2 max-lg:w-full max-lg:h-auto max-md:grid-cols-1 max-lg:gap-4"
+            className="grid grid-cols-3 gap-6 w-full max-lg:grid-cols-2 max-md:grid-cols-1"
           >
             {PLAN_PRICING.map((item) => (
               <motion.div
                 key={item.id}
                 variants={pricingCardVariants}
-                className="flex flex-col p-[24px] w-[397px] h-[504px] bg-white shadow-sm rounded-[16px] max-lg:w-full max-lg:h-auto"
+                className="flex flex-col p-6 bg-white shadow-sm rounded-[16px]"
               >
-                <div className="flex flex-col items-center justify-center w-[349px] h-[456px] gap-[32px] max-lg:w-full max-lg:h-auto">
-                  {/* Card Header */}
-                  <div className="flex flex-col items-center justify-center gap-[40px] w-[349px] h-[230px] max-lg:w-full max-lg:h-auto max-lg:gap-6">
-                    {/* Name & Description */}
-                    <div className="flex flex-col items-start gap-[8px] w-[349px] h-[63px] max-lg:w-full max-lg:h-auto">
-                      <div className="flex flex-row items-center gap-[12px] w-[349px] h-[29px] max-lg:w-full">
+                <div className="flex flex-col items-center justify-center gap-8 w-full">
+                  <div className="flex flex-col items-center justify-center gap-10 w-full max-lg:gap-6">
+                    <div className="flex flex-col items-start gap-2 w-full">
+                      <div className="flex flex-row items-center gap-3 w-full">
                         <Star
-                          className="flex-shrink-0"
+                          className="shrink-0"
                           style={{ color: item.starColor }}
                           size={20}
                           fill={item.starColor}
@@ -154,8 +151,7 @@ export default function Pricing() {
                       </div>
                     </div>
 
-                    {/* Price & CTA */}
-                    <div className="flex flex-col items-start gap-[20px] w-[349px] h-[127px] max-lg:w-full max-lg:h-auto max-lg:gap-4">
+                    <div className="flex flex-col items-start gap-5 w-full max-lg:gap-4">
                       <div className="flex items-baseline gap-[4px]">
                         {item.monthlyPrice === "Free" ? (
                           <h1 className="text-[42px] font-medium text-[#1b0c25] leading-[52px] max-lg:text-3xl max-lg:leading-[36px]">
@@ -188,7 +184,7 @@ export default function Pricing() {
                       </div>
                       <div className="w-full">
                         {item.popular ? (
-                          <Button className="group w-[349px] h-[50px] bg-[#1b0c25] hover:bg-[#1b0c25] text-[15px] leading-[26px] text-white max-lg:w-full">
+                          <Button className="group w-full h-[50px] bg-[#1b0c25] hover:bg-[#1b0c25] text-[15px] leading-[26px] text-white">
                             <span className="flex flex-col items-center h-[26px] overflow-hidden">
                               <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
                                 Get Started
@@ -199,7 +195,7 @@ export default function Pricing() {
                             </span>
                           </Button>
                         ) : (
-                          <Button className="group w-[349px] h-[50px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-[15px] leading-[26px] text-[#1b0c25] hover:bg-white border border-gray-200 max-lg:w-full">
+                          <Button className="group w-full h-[50px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-[15px] leading-[26px] text-[#1b0c25] hover:bg-white border border-gray-200">
                             <span className="flex flex-col items-center h-[26px] overflow-hidden">
                               <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
                                 Get Started
@@ -214,17 +210,16 @@ export default function Pricing() {
                     </div>
                   </div>
 
-                  {/* Features List */}
-                  <div className="flex flex-col items-start gap-[16px] w-[349px] h-[194px] max-lg:w-full max-lg:h-auto">
-                    <h1 className="text-[15px] text-[#1b0c25] leading-[26px] opacity-[0.7] max-lg:text-sm">
+                  <div className="flex flex-col items-start gap-4 w-full">
+                    <h1 className="text-[15px] text-[#1b0c25] leading-[26px] opacity-70 max-lg:text-sm">
                       What's Included
                     </h1>
                     {item.features.map((feature, index) => (
                       <div
                         key={index}
-                        className="flex items-center flex-row gap-[12px] w-[349px] h-[26px] max-lg:w-full"
+                        className="flex items-center flex-row gap-3 w-full"
                       >
-                        <span className="text-[#1b0c25] flex-shrink-0 text-[14px]">
+                        <span className="text-[#1b0c25] shrink-0 text-sm">
                           ✦
                         </span>
                         <p className="text-[15px] text-[#1b0c25] leading-[26px] max-lg:text-sm">
@@ -237,8 +232,7 @@ export default function Pricing() {
               </motion.div>
             ))}
           </motion.div>
-        </div>
-      </div>
+      </Container>
     </div>
   );
 }

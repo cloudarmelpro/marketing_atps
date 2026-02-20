@@ -2,6 +2,7 @@
 import React from "react";
 import { ButtonDemo } from "../ButtonDemo";
 import { Separator } from "../ui/separator";
+import { Container } from "../ui/container";
 import Image from "next/image";
 import TitleSection from "../TitleSection";
 import { motion } from "framer-motion";
@@ -65,13 +66,16 @@ const Footer = () => {
         <div className="absolute z-[-1px] right-[-86px] top-[590px] rounded-[603px] w-[658px] h-[548px] bg-[linear-gradient(145deg,#efe8f6_0%,#d588fb_60.83%,#ff49d4_100%)] blur-[80px] opacity-[0.4] max-lg:hidden" />
 
         {/* Contenu principal */}
-        <motion.div
-          variants={footerContainerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportSettings}
-          className="z-10 px-[324px] py-[100px] flex flex-col items-center justify-center max-lg:px-4 max-lg:py-12"
+        <Container
+          className="z-10 py-12 lg:py-[100px] flex flex-col items-center justify-center"
         >
+          <motion.div
+            variants={footerContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            className="w-full"
+          >
           {/* Section CTA */}
           <motion.div
             variants={footerCTAVariants}
@@ -208,7 +212,8 @@ const Footer = () => {
               </p>
             </div>
           </motion.div>
-        </motion.div>
+          </motion.div>
+        </Container>
       </div>
     </div>
   );

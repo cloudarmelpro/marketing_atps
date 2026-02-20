@@ -55,11 +55,11 @@ export default function RelatedNews({
           <TitleSection title="Related News" />
           <div className="h-px grow bg-black/10"></div>
         </div>
-        <div className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-md:grid-cols-1">
+        <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
           {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
-              className="w-full h-[350px] rounded-[16px] bg-gray-100 animate-pulse"
+              className="rounded-[16px] bg-gray-100 animate-pulse aspect-video"
             />
           ))}
         </div>
@@ -76,9 +76,9 @@ export default function RelatedNews({
         <div className="h-px grow bg-black/10"></div>
       </div>
 
-      <div className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-md:grid-cols-1">
+      <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
         {relatedNews.map((news, index) => (
-          <Link href={`/news/${news.slug}`} key={news.id} className="block group">
+          <Link href={`/news/${news.slug}`} key={news.id} className="block">
             <motion.div
               variants={scaleInVariants}
               initial="hidden"
@@ -89,35 +89,29 @@ export default function RelatedNews({
                 delay: index * 0.1,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
-              className="w-full h-full rounded-[16px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-lg transition-all duration-300"
+              className="rounded-[16px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-lg transition-shadow"
             >
-              <div className="flex flex-col h-full">
-                {/* Image */}
-                <div className="relative w-full h-[200px] rounded-t-[16px] overflow-hidden">
+              <div className="flex flex-col items-center py-2 gap-6 max-lg:gap-4">
+                <div className="w-[calc(100%-16px)] aspect-video rounded-xl overflow-hidden relative">
                   <Image
                     src={news.image || "/assets/placeholder.png"}
                     alt={news.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover"
                   />
-                  <div className="absolute top-3 left-3 bg-black/60 text-white text-[10px] px-2 py-1 rounded-md uppercase font-bold tracking-wider backdrop-blur-sm">
-                    {news.category}
-                  </div>
                 </div>
 
-                {/* Content */}
-                <div className="flex flex-col p-5 gap-3 grow">
-                  <div className="text-xs text-gray-400 font-medium uppercase tracking-wide">
-                    {news.date}
+                <div className="w-full flex flex-col gap-4 px-2 pb-4 max-lg:gap-3">
+                  <div className="flex items-center justify-between px-4 max-lg:px-3">
+                    <TitleSection title={news.category || "News"} />
+                    <p className="text-sm text-gray-500">{news.date}</p>
                   </div>
 
-                  <h4 className="font-bold text-[16px] leading-[24px] text-[#1b0c25] line-clamp-2 group-hover:text-[#1B0C25]/80 transition-colors">
-                    {news.title}
-                  </h4>
-
-                  <p className="text-sm text-gray-500 line-clamp-2">
-                    {news.excerpt}
-                  </p>
+                  <div className="px-4 max-lg:px-3">
+                    <p className="font-medium text-xl lg:text-[23px] leading-7 text-[#1b0c25] line-clamp-2">
+                      {news.title}
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>

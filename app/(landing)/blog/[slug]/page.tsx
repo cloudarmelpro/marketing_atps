@@ -5,6 +5,7 @@ import RelatedPosts from "@/components/sections/RelatedPosts";
 import BlogSidebar from "@/components/sections/BlogSidebar";
 import { blogService } from "@/lib/api";
 import { transformBlogArticle, transformBlogArticles } from "@/lib/api/transformers";
+import { Container } from "@/components/ui/container";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -57,12 +58,12 @@ export default async function BlogDetail({ params }: PageProps) {
 
   return (
     <div className="bg-white pb-20">
-      <StaggerContainer className="w-full max-w-[1240px] mx-auto px-6 md:px-0 pt-[140px] pb-[80px]">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12">
+      <Container className="pt-[140px] pb-[80px]">
+        <StaggerContainer className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12">
           <div className="min-w-0">
-            <div className="text-center flex flex-col items-center gap-6 mb-10">
+            <div className="text-start flex flex-col items-start gap-6 mb-10">
               <FadeInUp>
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold uppercase tracking-wider text-[#1B0C25]">
+                <div className="inline-flex items-start gap-2 px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold uppercase tracking-wider text-[#1B0C25]">
                   <span>{blog.title}</span>
                   <span className="w-1 h-1 rounded-full bg-gray-400"></span>
                   <span>{blog.date}</span>
@@ -151,13 +152,13 @@ export default async function BlogDetail({ params }: PageProps) {
               title={blog.description}
             />
           </div>
-        </div>
-      </StaggerContainer>
+        </StaggerContainer>
+      </Container>
 
-      <div className="w-full bg-[#FAFAFA] py-20 flex justify-center">
-        <div className="w-full max-w-[1240px] px-6 md:px-0">
+      <div className="w-full bg-[#FAFAFA] py-20">
+        <Container>
           <RelatedPosts posts={relatedPosts} />
-        </div>
+        </Container>
       </div>
     </div>
   );

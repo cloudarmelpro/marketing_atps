@@ -1,21 +1,43 @@
 "use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import TitleSection from "../TitleSection";
 import { Button } from "../ui/button";
-import BlogCard from "../BlogCard";
+import { Container } from "../ui/container";
 import { motion } from "framer-motion";
 import {
   fadeInUpVariants,
   fadeInUpDelayedVariants,
+  scaleInVariants,
   viewportSettings,
 } from "@/lib/motion";
+import { blogService } from "@/lib/api";
+import { transformBlogArticles, type TransformedBlogPost } from "@/lib/api/transformers";
 
 export default function BlogSection() {
+  const [posts, setPosts] = useState<TransformedBlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRecentPosts = async () => {
+      const response = await blogService.getRecentArticles(3);
+      if (response.data) {
+        const data = response.data as any;
+        const articles = Array.isArray(data) ? data : (data.articles || []);
+        setPosts(transformBlogArticles(articles));
+      }
+      setLoading(false);
+    };
+
+    fetchRecentPosts();
+  }, []);
+
   return (
-    <section className="py-16 px-[16px] max-lg:py-12 max-md:py-8">
-      <div className="flex flex-col mb-[40px] px-[324px] max-lg:px-4 max-md:px-4">
+    <section className="py-16 max-lg:py-12 max-md:py-8">
+      <Container className="flex flex-col mb-[40px]">
         <div className="flex flex-col gap-[40px] max-lg:gap-6 max-md:gap-4">
-          {/* Header avec flex column sur mobile */}
           <motion.div
             variants={fadeInUpVariants}
             initial="hidden"
@@ -23,7 +45,6 @@ export default function BlogSection() {
             viewport={viewportSettings}
             className="flex items-end justify-between max-lg:flex-col max-lg:items-start max-lg:gap-4"
           >
-            {/* Titre */}
             <div className="flex flex-col items-start gap-[12px] max-lg:w-full">
               <TitleSection
                 title="Blog"
@@ -36,7 +57,6 @@ export default function BlogSection() {
               </div>
             </div>
 
-            {/* Bouton */}
             <motion.div variants={fadeInUpDelayedVariants}>
               <Link href="/blog">
                 <Button
@@ -56,12 +76,59 @@ export default function BlogSection() {
             </motion.div>
           </motion.div>
 
-          {/* Cartes blog */}
-          <div>
-            <BlogCard />
+          <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-[437px] rounded-[16px] bg-gray-100 animate-pulse max-lg:h-[350px]"
+                />
+              ))
+            ) : (
+              posts.map((blog, index) => (
+                <Link href={`/blog/${blog.slug}`} key={blog.id} className="block">
+                  <motion.div
+                    variants={scaleInVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportSettings}
+                    transition={{
+                      duration: 0.6,
+                      delay: index * 0.15,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    }}
+                    className="rounded-[16px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-lg transition-shadow"
+                  >
+                    <div className="flex flex-col items-center py-2 gap-6 max-lg:gap-4">
+                      <div className="w-[calc(100%-16px)] aspect-video rounded-xl overflow-hidden relative">
+                        <Image
+                          src={blog.imageBlog || "/assets/placeholder.png"}
+                          alt={blog.description}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+
+                      <div className="w-full flex flex-col gap-4 px-2 max-lg:gap-3">
+                        <div className="flex items-center justify-between px-4 max-lg:px-3">
+                          <TitleSection title={blog.title} />
+                          <p className="text-sm text-gray-500">{blog.date}</p>
+                        </div>
+
+                        <div className="px-4 max-lg:px-3">
+                          <p className="font-medium text-xl lg:text-[23px] leading-7 text-[#1b0c25] line-clamp-2">
+                            {blog.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

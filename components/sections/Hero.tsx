@@ -3,6 +3,7 @@
 import React from "react";
 import { ButtonDemoBlur } from "../ButtonDemo";
 import { Button } from "../ui/button";
+import { Container } from "../ui/container";
 import Image from "next/image";
 import { ChevronDown, Globe } from "lucide-react";
 import { Input } from "../ui/input";
@@ -22,9 +23,8 @@ export default function Hero() {
   return (
     <div className="w-full p-4 sm:p-6 lg:p-4">
       <div className="min-h-[800px] lg:h-[1236px] bg-[url('/images/bgHero.png')] rounded-2xl overflow-hidden bg-cover bg-center">
-        <div className="flex flex-col gap-8 lg:gap-[60px] py-12 lg:py-[160px] px-4 sm:px-8 lg:px-[324px]">
-          {/* Hero Content */}
-          <div className="flex flex-col gap-6 lg:gap-[40px] w-full lg:w-[1240px] mx-auto">
+        <div className="flex flex-col gap-8 lg:gap-[60px] py-12 lg:py-[160px]">
+          <Container className="flex flex-col gap-6 lg:gap-[40px]">
             <div className="flex flex-col gap-4 lg:gap-[24px]">
               <div className="flex flex-col items-start gap-4 lg:gap-[24px]">
                 <div className="flex flex-col items-start w-full lg:w-[940px] gap-3 lg:gap-[12px]">
@@ -90,15 +90,15 @@ export default function Hero() {
                 <ButtonDemoBlur />
               </motion.div>
             </div>
-          </div>
+          </Container>
 
-          {/* Hero Card */}
-          <motion.div
-            variants={heroCardVariants}
-            initial="hidden"
-            animate="visible"
-            className="flex items-center justify-center w-full lg:w-[1240px] mx-auto min-h-[500px] lg:h-[654px] border border-white relative rounded-tl-[20px] sm:rounded-tl-[30px] lg:rounded-tl-[40px] rounded-tr-[20px] sm:rounded-tr-[30px] lg:rounded-tr-[40px] backdrop-blur-[10px] bg-[linear-gradient(180deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.6)_100%)]"
-          >
+          <Container>
+            <motion.div
+              variants={heroCardVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex items-center justify-center w-full min-h-[500px] lg:h-[654px] border border-white relative rounded-tl-[20px] sm:rounded-tl-[30px] lg:rounded-tl-[40px] rounded-tr-[20px] sm:rounded-tr-[30px] lg:rounded-tr-[40px] backdrop-blur-[10px] bg-[linear-gradient(180deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.6)_100%)]"
+            >
             {/* Decorative Elements - Hidden on mobile/tablet */}
             <motion.div
               className="hidden lg:block absolute w-[209px] h-[210px] bg-[url('/images/scare1.png')] top-[37.98px] right-[79px]"
@@ -216,6 +216,7 @@ export default function Hero() {
               </div>
             </div>
           </motion.div>
+          </Container>
         </div>
       </div>
     </div>

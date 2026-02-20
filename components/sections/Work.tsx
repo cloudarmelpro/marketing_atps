@@ -2,6 +2,7 @@
 
 import { ButtonDemoVarient } from "../ButtonDemo";
 import TitleSection from "../TitleSection";
+import { Container } from "../ui/container";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -35,88 +36,75 @@ const LIST_WORK = [
 
 export default function Work() {
   return (
-    <div className="px-[16px]">
-      {/* J'ai uniquement AJOUTÉ des classes responsive, rien supprimé */}
-      <div className="flex flex-row justify-center items-start px-[324px] py-[200px] h-[1299px] px-[16px] max-lg:px-4 max-lg:py-12 max-lg:h-auto">
+    <div className="py-12 lg:py-[200px]">
+      <Container>
         <motion.div
           variants={workContainerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={viewportSettings}
-          className="flex flex-col gap-[24px] items-start w-[1240px] h-[999px] max-lg:w-full max-lg:h-auto"
+          className="flex flex-col gap-[24px] items-start w-full"
         >
-          {/* Première ligne - AJOUT: stack sur tablette/mobile */}
-          <div className="flex flex-row items-start gap-[24px] w-[1240px] h-[532px] max-lg:flex-col max-lg:w-full max-lg:h-auto">
-            {/* Carte gauche - AJOUT: largeur responsive */}
+          <div className="flex flex-row items-stretch gap-6 w-full max-lg:flex-col">
             <motion.div
               variants={fadeInUpVariants}
-              className="w-[752px] h-[532px] max-lg:w-full max-lg:h-auto"
+              className="flex-[1.6] max-lg:w-full"
             >
-              <div className="flex flex-col p-[40px] gap-[24px] w-[752px] h-[532px] rounded-[16px] bg-white shadow-sm max-lg:w-full max-lg:h-auto max-lg:p-6">
-                {/* Zone texte - AJOUT: largeur responsive */}
-                <div className="flex flex-col items-start gap-[12px] w-[672px] h-[160px] max-lg:w-full max-lg:h-auto">
+              <div className="flex flex-col p-10 gap-6 h-full rounded-[16px] bg-white shadow-sm max-lg:p-6">
+                <div className="flex flex-col items-start gap-3">
                   <TitleSection
                     title="hot it works"
                     className="shadow-[0_33px_13px_0_rgba(0,0,0,0.01),0_19px_11px_0_rgba(0,0,0,0.04),0_8px_8px_0_rgba(0,0,0,0.06),0_2px_5px_0_rgba(0,0,0,0.07)]"
                   />
-                  <div>
-                    {/* AJOUT: texte responsive */}
-                    <h1 className="font-medium text-[59px] leading-[60px] text-[#1b0c25] max-lg:text-4xl max-lg:leading-tight">
-                      A Simple 3-Step Process
-                    </h1>
-                  </div>
+                  <h1 className="font-medium text-5xl lg:text-[59px] leading-tight lg:leading-[60px] text-[#1b0c25]">
+                    A Simple 3-Step Process
+                  </h1>
                 </div>
 
-                {/* AJOUT: texte responsive */}
-                <div>
-                  <p className="font-normal text-[17px] text-[#1b0c25] leading-[28px] max-lg:text-base">
-                    Get started quickly and effortlessly with Fluence AI's
-                    streamlined 3-step process designed to optimize your data
-                    workflow.
-                  </p>
-                </div>
+                <p className="font-normal text-base lg:text-[17px] text-[#1b0c25] leading-7">
+                  Get started quickly and effortlessly with Fluence AI's
+                  streamlined 3-step process designed to optimize your data
+                  workflow.
+                </p>
                 <ButtonDemoVarient />
               </div>
             </motion.div>
 
-            {/* Carte droite image - AJOUT: largeur responsive */}
             <motion.div
               variants={fadeInUpVariants}
-              className="flex flex-col items-center p-[8px] w-[463px] h-[532px] bg-white shadow-sm rounded-[16px] max-lg:w-full max-lg:h-auto"
+              className="flex-1 flex flex-col items-center p-2 bg-white shadow-sm rounded-[16px] max-lg:w-full"
             >
               <Image
                 src="/images/imageAI.png"
                 alt="Work illustration"
                 width={448}
                 height={516}
-                className="max-lg:w-full max-lg:h-auto"
+                className="w-full h-auto object-cover rounded-lg"
               />
             </motion.div>
           </div>
 
-          {/* Deuxième ligne - 3 cartes - AJOUT: grid responsive au lieu de flex row */}
-          <div className="flex flex-row items-start gap-[24px] w-[1239px] h-[443px] max-lg:grid max-lg:grid-cols-2 max-lg:w-full max-lg:h-auto max-md:grid-cols-1">
+          <div className="grid grid-cols-3 gap-6 w-full max-lg:grid-cols-2 max-md:grid-cols-1">
             {LIST_WORK.map((item) => (
               <motion.div
                 key={item.id}
                 variants={workStepVariants}
-                className="flex flex-col items-center gap-[30px] p-[8px] w-[397px] h-[443px] rounded-[16px] bg-white shadow-sm max-lg:w-full max-lg:h-auto"
+                className="flex flex-col items-center gap-8 p-2 rounded-[16px] bg-white shadow-sm"
               >
-                <div className="w-[381px] h-[278px] rounded-[12px] max-lg:w-full max-lg:h-auto">
+                <div className="w-full rounded-xl overflow-hidden">
                   <Image
                     src={item.image}
                     alt={item.title}
                     width={381}
                     height={278}
-                    className="max-lg:w-full max-lg:h-auto"
+                    className="w-full h-auto"
                   />
                 </div>
-                <div className="flex flex-col gap-[15px] pl-[22px] pr-[22px] pb-[22px] w-[381px] h-[118px] max-lg:w-full max-lg:h-auto">
-                  {/* AJOUT: texte responsive */}
-                  <h1 className="text-[23px] font-medium leading-[28px] text-[#1b0c25] max-lg:text-xl">
+                <div className="flex flex-col gap-4 px-5 pb-5 w-full">
+                  <h1 className="text-xl lg:text-[23px] font-medium leading-7 text-[#1b0c25]">
                     {item.title}
                   </h1>
-                  <p className="text-[15px] leading-[26px] font-normal text-[#1b0c25] max-lg:text-sm">
+                  <p className="text-sm lg:text-[15px] leading-6 font-normal text-[#1b0c25]">
                     {item.description}
                   </p>
                 </div>
@@ -124,7 +112,7 @@ export default function Work() {
             ))}
           </div>
         </motion.div>
-      </div>
+      </Container>
     </div>
   );
 }

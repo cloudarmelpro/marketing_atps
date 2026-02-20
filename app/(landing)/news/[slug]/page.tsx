@@ -6,6 +6,7 @@ import RelatedNews from "@/components/sections/RelatedNews";
 import NewsSidebar from "@/components/sections/NewsSidebar";
 import { newsService } from "@/lib/api";
 import { transformNewsItem } from "@/lib/api/transformers";
+import { Container } from "@/components/ui/container";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -55,7 +56,7 @@ export default async function NewsDetail({ params }: PageProps) {
             <div className="absolute inset-0 bg-linear-to-t from-[#121212] via-[#121212]/50 to-transparent" />
           </div>
         )}
-        <div className="container max-w-[1240px] px-6 mx-auto relative z-10">
+        <Container className="relative z-10">
           <FadeInUp>
             <div className="flex flex-col gap-4">
               <p className="text-gray-400 text-sm font-medium">{news.date}</p>
@@ -72,10 +73,10 @@ export default async function NewsDetail({ params }: PageProps) {
               </div>
             </div>
           </FadeInUp>
-        </div>
+        </Container>
       </div>
 
-      <div className="w-full max-w-[1240px] mx-auto px-4 md:px-0 py-12">
+      <Container className="py-12">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12">
           <div className="min-w-0">
             <div className="prose prose-lg max-w-none text-[#1B0C25]/80">
@@ -104,12 +105,12 @@ export default async function NewsDetail({ params }: PageProps) {
             />
           </div>
         </div>
-      </div>
+      </Container>
 
-      <div className="w-full px-[16px] bg-[#FAFAFA] py-20 flex justify-center">
-        <div className="w-full max-w-[1240px]">
+      <div className="w-full bg-[#FAFAFA] py-20">
+        <Container>
           <RelatedNews currentNewsId={news.id} category={news.category} />
-        </div>
+        </Container>
       </div>
     </div>
   );
