@@ -35,7 +35,7 @@ export default function Hero() {
                     animate="visible"
                     className="w-[180px] sm:w-[202px] h-6 sm:h-7 lg:h-[28px] flex items-center justify-center rounded-full backdrop-blur-[6px] bg-white/20 shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_4px_4px_rgba(255,255,255,0.3)]"
                   >
-                    <p className="uppercase text-[11px] sm:text-[13px] leading-[14px] sm:leading-[16px] text-[#1b0c25] ml-6 sm:ml-9 lg:ml-[36px] font-medium truncate px-2">
+                    <p className="uppercase text-[11px] sm:text-[13px] leading-[14px] sm:leading-[16px] text-[#1b0c25] font-medium truncate">
                       business & solution
                     </p>
                   </motion.div>

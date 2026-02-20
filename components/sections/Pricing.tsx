@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import TitleSection from "../TitleSection";
 import { Button } from "../ui/button";
 import { Container } from "../ui/container";
-import { Star } from "lucide-react";
+import { Star, Check, Gift } from "lucide-react";
 import { motion } from "framer-motion";
 import {
   fadeInUpVariants,
@@ -13,225 +14,267 @@ import {
   viewportSettings,
 } from "@/lib/motion";
 
-const PLAN_PRICING = [
-  {
-    id: 1,
-    name: "Starter",
-    monthlyPrice: "Free",
-    annualPrice: "Free",
-    description: "Get started with Fluence AI at no cost",
-    popular: false,
-    starColor: "#80A9FC",
-    features: [
-      "400 AI credits at signup",
-      "20,000 AI token inputs",
-      "Calendar integration & syncing",
-      "Guest sharing and links",
-    ],
-  },
-  {
-    id: 2,
-    name: "Plus",
-    monthlyPrice: "$22",
-    annualPrice: "$29",
-    description: "Unlock more powerful features",
-    popular: true,
-    starColor: "#F5A623",
-    features: [
-      "Unlimited AI credits",
-      "50,000 AI token inputs",
-      "Calendar integration & syncing",
-      "Guest sharing and links",
-    ],
-  },
-  {
-    id: 3,
-    name: "Pro",
-    monthlyPrice: "$69",
-    annualPrice: "$49",
-    description: "Take your business to the next level",
-    popular: false,
-    starColor: "#C34F96",
-    features: [
-      "Unlimited AI creation",
-      "100,000 AI token inputs",
-      "Calendar integration & syncing",
-      "Guest sharing and links",
-    ],
-  },
+const APP_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
+const DURATIONS = [
+  { months: 1, label: "1 month" },
+  { months: 2, label: "2 months" },
+  { months: 3, label: "3 months" },
+  { months: 6, label: "6 months" },
+  { months: 9, label: "9 months" },
+  { months: 12, label: "12 months" },
 ];
 
+const PLANS = {
+  FREE: {
+    id: "FREE",
+    name: "Free",
+    badge: "Starter",
+    description: "Start your journey with essential features",
+    price: 0,
+    priceLabel: "forever",
+    buttonText: "Get Started",
+    buttonVariant: "outline" as const,
+    popular: false,
+    features: [
+      { text: "Up to 10 exams per month", included: true },
+      { text: "Basic exam templates", included: true },
+      { text: "Community support", included: true },
+      { text: "Progress tracking", included: true },
+      { text: "Mobile responsive", included: false },
+      { text: "Basic analytics", included: false },
+    ],
+  },
+  STANDARD: {
+    id: "STANDARD",
+    name: "Standard",
+    description: "L'essentiel pour réussir votre ATPL",
+    prices: {
+      1: { total: 29, perMonth: 29, savings: 0 },
+      2: { total: 49, perMonth: 24.5, savings: 16 },
+      3: { total: 69, perMonth: 23, savings: 21 },
+      6: { total: 109, perMonth: 18.17, savings: 37 },
+      9: { total: 139, perMonth: 15.44, savings: 47 },
+      12: { total: 159, perMonth: 13.25, savings: 54 },
+    },
+    buttonText: "Subscribe",
+    buttonVariant: "outline" as const,
+    popular: false,
+    features: [
+      { text: "Question Bank complète", included: true },
+      { text: "Quiz mode STUDY illimité", included: true },
+      { text: "Quiz mode TEST (5/jour)", included: true },
+      { text: "Cours théoriques (TEXT)", included: true },
+      { text: "Vidéos (10h/mois)", included: true },
+      { text: "Progression & Stats basiques", included: true },
+      { text: "Dictionnaire aviation", included: true },
+      { text: "Bookmarks (50 max)", included: true },
+    ],
+  },
+  PREMIUM: {
+    id: "PREMIUM",
+    name: "Premium",
+    description: "Everything you need to excel and succeed from the first try",
+    prices: {
+      1: { total: 39, perMonth: 39, savings: 0 },
+      2: { total: 69, perMonth: 34.5, savings: 12 },
+      3: { total: 89, perMonth: 29.67, savings: 24 },
+      6: { total: 139, perMonth: 23.17, savings: 41 },
+      9: { total: 169, perMonth: 18.78, savings: 52 },
+      12: { total: 189, perMonth: 15.75, savings: 60 },
+    },
+    buttonText: "Subscribe",
+    buttonVariant: "primary" as const,
+    popular: true,
+    trial: "48h of free trial included",
+    features: [
+      { text: "Complete Question Bank", included: true },
+      { text: "Quiz mode STUDY Unlimited", included: true },
+      { text: "Quiz mode TEST Unlimited", included: true },
+      { text: "Quiz mode EXAM Unlimited", included: true },
+      { text: "Theoretical Courses (All formats)", included: true },
+      { text: "Videos Unlimited", included: true },
+      { text: "Advanced Progression & Stats", included: true },
+      { text: "ATC Simulator Unlimited", included: true },
+    ],
+  },
+};
+
 export default function Pricing() {
-  const [isAnnual, setIsAnnual] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState(1);
+
+  const getPrice = (plan: typeof PLANS.STANDARD | typeof PLANS.PREMIUM) => {
+    const priceData = plan.prices[selectedDuration as keyof typeof plan.prices];
+    return priceData;
+  };
+
+  const maxSavings = PLANS.PREMIUM.prices[12].savings;
 
   return (
     <div id="pricing" className="py-12 lg:py-[100px]">
-      <Container className="flex flex-col gap-[24px]">
-          {/* Header Section */}
-          <motion.div
-            variants={fadeInUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportSettings}
-            className="flex flex-col items-center gap-[40px] w-full max-lg:gap-6"
-          >
-            {/* Title & Description */}
-            <div className="flex flex-col items-center gap-[24px] w-[800px] h-[151px] max-lg:w-full max-lg:px-4 max-lg:h-auto">
-              <div className="flex flex-col items-center gap-[12px] w-[800px] h-[100px] max-lg:w-full max-lg:h-auto">
-                <TitleSection
-                  title="Pricing"
-                  className="shadow-[0_33px_13px_0_rgba(0,0,0,0.01),0_19px_11px_0_rgba(0,0,0,0.04),0_8px_8px_0_rgba(0,0,0,0.06),0_2px_5px_0_rgba(0,0,0,0.07)]"
-                />
-                <h1 className="text-[59px] leading-[60px] font-medium text-[#1b0c25] max-lg:text-4xl max-lg:leading-tight max-lg:text-center max-lg:px-4">
-                  Simple, Flexible Pricing
-                </h1>
-              </div>
-              <p className="text-[16px] leading-[28px] text-center font-normal max-lg:text-sm max-lg:px-4">
-                Pricing plans for businesses at every stage of growth.
-              </p>
-            </div>
+      <Container className="flex flex-col gap-8">
+        {/* Header Section */}
+        <motion.div
+          variants={fadeInUpVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
+        >
+          <div className="flex flex-col gap-3">
+            <h1 className="text-4xl lg:text-5xl font-semibold text-[#1b0c25]">
+              Choose your plan
+            </h1>
+            <p className="text-gray-600">
+              Access to all tools to successfully pass your ATPL on the first try
+            </p>
+          </div>
 
-            {/* Toggle Buttons */}
-            <div className="flex flex-col items-start p-[4px] w-[216px] h-[42px] bg-[#EDEBEE] rounded-[8px] max-lg:w-auto">
-              <div className="flex flex-row items-center gap-[8px] w-[208px] h-[34px] max-lg:w-auto">
-                <Button
-                  variant={!isAnnual ? "outline" : "ghost"}
-                  onClick={() => setIsAnnual(false)}
-                  className={`flex flex-row items-center justify-center w-[100px] h-[34px] max-lg:w-[90px] ${!isAnnual ? "" : "bg-[#EDEBEE]"}`}
-                >
-                  Monthly
-                </Button>
-                <Button
-                  variant={isAnnual ? "outline" : "ghost"}
-                  onClick={() => setIsAnnual(true)}
-                  className={`flex flex-row items-center justify-center w-[100px] h-[34px] max-lg:w-[90px] ${isAnnual ? "" : "bg-[#EDEBEE]"}`}
-                >
-                  Annual
-                </Button>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={pricingContainerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportSettings}
-            className="grid grid-cols-3 gap-6 w-full max-lg:grid-cols-2 max-md:grid-cols-1"
-          >
-            {PLAN_PRICING.map((item) => (
-              <motion.div
-                key={item.id}
-                variants={pricingCardVariants}
-                className="flex flex-col p-6 bg-white shadow-sm rounded-[16px]"
+          {/* Duration Selector */}
+          <div className="flex flex-wrap items-center gap-2 p-1 bg-gray-100 rounded-lg">
+            {DURATIONS.map((duration) => (
+              <button
+                key={duration.months}
+                onClick={() => setSelectedDuration(duration.months)}
+                className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                  selectedDuration === duration.months
+                    ? "bg-white text-[#1b0c25] shadow-sm"
+                    : "text-gray-600 hover:text-[#1b0c25]"
+                }`}
               >
-                <div className="flex flex-col items-center justify-center gap-8 w-full">
-                  <div className="flex flex-col items-center justify-center gap-10 w-full max-lg:gap-6">
-                    <div className="flex flex-col items-start gap-2 w-full">
-                      <div className="flex flex-row items-center gap-3 w-full">
-                        <Star
-                          className="shrink-0"
-                          style={{ color: item.starColor }}
-                          size={20}
-                          fill={item.starColor}
-                        />
-                        <span className="text-[24px] leading-[28px] font-medium text-[#1b0c25] max-lg:text-xl">
-                          {item.name}
-                        </span>
-                        {item.popular && (
-                          <span className="px-[10px] py-[2px] bg-[#1b0c25] text-white text-[12px] leading-[18px] font-medium rounded-[4px]">
-                            Popular
-                          </span>
-                        )}
-                      </div>
-                      <div>
-                        <p className="text-[15px] leading-[26px] text-[#1b0c25] font-normal max-lg:text-sm">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col items-start gap-5 w-full max-lg:gap-4">
-                      <div className="flex items-baseline gap-[4px]">
-                        {item.monthlyPrice === "Free" ? (
-                          <h1 className="text-[42px] font-medium text-[#1b0c25] leading-[52px] max-lg:text-3xl max-lg:leading-[36px]">
-                            Free
-                          </h1>
-                        ) : (
-                          <>
-                            <div className="h-[52px] overflow-hidden max-lg:h-[36px]">
-                              <div
-                                className="flex flex-col transition-transform duration-300 ease-in-out"
-                                style={{
-                                  transform: isAnnual
-                                    ? "translateY(-52px)"
-                                    : "translateY(0px)",
-                                }}
-                              >
-                                <h1 className="text-[42px] font-medium text-[#1b0c25] leading-[52px] h-[52px] max-lg:text-3xl max-lg:h-[36px] max-lg:leading-[36px]">
-                                  {item.monthlyPrice}
-                                </h1>
-                                <h1 className="text-[42px] font-medium text-[#1b0c25] leading-[52px] h-[52px] max-lg:text-3xl max-lg:h-[36px] max-lg:leading-[36px]">
-                                  {item.annualPrice}
-                                </h1>
-                              </div>
-                            </div>
-                            <span className="text-[15px] leading-[26px] text-[#1b0c25] opacity-60">
-                              /month, per user
-                            </span>
-                          </>
-                        )}
-                      </div>
-                      <div className="w-full">
-                        {item.popular ? (
-                          <Button className="group w-full h-[50px] bg-[#1b0c25] hover:bg-[#1b0c25] text-[15px] leading-[26px] text-white">
-                            <span className="flex flex-col items-center h-[26px] overflow-hidden">
-                              <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                                Get Started
-                              </span>
-                              <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                                Get Started
-                              </span>
-                            </span>
-                          </Button>
-                        ) : (
-                          <Button className="group w-full h-[50px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-[15px] leading-[26px] text-[#1b0c25] hover:bg-white border border-gray-200">
-                            <span className="flex flex-col items-center h-[26px] overflow-hidden">
-                              <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                                Get Started
-                              </span>
-                              <span className="block h-[26px] leading-[26px] transition-transform duration-300 ease-in-out group-hover:-translate-y-full">
-                                Get Started
-                              </span>
-                            </span>
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col items-start gap-4 w-full">
-                    <h1 className="text-[15px] text-[#1b0c25] leading-[26px] opacity-70 max-lg:text-sm">
-                      What's Included
-                    </h1>
-                    {item.features.map((feature, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center flex-row gap-3 w-full"
-                      >
-                        <span className="text-[#1b0c25] shrink-0 text-sm">
-                          ✦
-                        </span>
-                        <p className="text-[15px] text-[#1b0c25] leading-[26px] max-lg:text-sm">
-                          {feature}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+                {duration.label}
+              </button>
             ))}
+          </div>
+        </motion.div>
+
+        {/* Pricing Cards */}
+        <motion.div
+          variants={pricingContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {/* Free Plan */}
+          <motion.div
+            variants={pricingCardVariants}
+            className="flex flex-col p-6 bg-white rounded-2xl border border-gray-200"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-2xl font-semibold text-[#1b0c25]">{PLANS.FREE.name}</h3>
+              <span className="text-sm text-emerald-600 font-medium">{PLANS.FREE.badge}</span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">{PLANS.FREE.description}</p>
+            
+            <div className="mb-2">
+              <span className="text-5xl font-semibold text-[#1b0c25]">0€</span>
+              <span className="text-gray-500 ml-1">{PLANS.FREE.priceLabel}</span>
+            </div>
+            <p className="text-sm text-gray-500 mb-6">Perfect for getting started</p>
+
+            <Link href={`${APP_URL}/auth/signup`} className="w-full mb-8">
+              <Button variant="outline" className="w-full h-12 text-[#1b0c25] border-[#1b0c25] hover:bg-[#1b0c25] hover:text-white">
+                {PLANS.FREE.buttonText}
+              </Button>
+            </Link>
+
+            <div className="flex flex-col gap-3">
+              {PLANS.FREE.features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  {feature.included ? (
+                    <Check className="w-5 h-5 text-[#1b0c25]" />
+                  ) : (
+                    <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
+                  )}
+                  <span className={`text-sm ${feature.included ? "text-[#1b0c25]" : "text-gray-400"}`}>
+                    {feature.text}
+                  </span>
+                </div>
+              ))}
+            </div>
           </motion.div>
+
+          {/* Standard Plan */}
+          <motion.div
+            variants={pricingCardVariants}
+            className="flex flex-col p-6 bg-white rounded-2xl border border-gray-200"
+          >
+            <h3 className="text-2xl font-semibold text-[#1b0c25] mb-2">{PLANS.STANDARD.name}</h3>
+            <p className="text-sm text-gray-600 mb-6">{PLANS.STANDARD.description}</p>
+            
+            <div className="mb-2">
+              <span className="text-5xl font-semibold text-[#1b0c25]">
+                {getPrice(PLANS.STANDARD).total}€
+              </span>
+              <span className="text-gray-500 ml-1">/{selectedDuration} month{selectedDuration > 1 ? "s" : ""}</span>
+            </div>
+            <p className="text-sm text-emerald-600 mb-6">
+              {getPrice(PLANS.STANDARD).perMonth.toFixed(2)}€/month • Save {getPrice(PLANS.STANDARD).savings}%
+            </p>
+
+            <Link href={`${APP_URL}/pricing?plan=STANDARD&duration=${selectedDuration}`} target="_blank" className="w-full mb-8">
+              <Button variant="outline" className="w-full h-12 text-[#1b0c25] border-[#1b0c25] hover:bg-[#1b0c25] hover:text-white">
+                {PLANS.STANDARD.buttonText}
+              </Button>
+            </Link>
+
+            <div className="flex flex-col gap-3">
+              {PLANS.STANDARD.features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <Check className="w-5 h-5 text-[#1b0c25]" />
+                  <span className="text-sm text-[#1b0c25]">{feature.text}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Premium Plan */}
+          <motion.div
+            variants={pricingCardVariants}
+            className="flex flex-col p-6 bg-white rounded-2xl border-2 border-emerald-500 relative"
+          >
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="flex items-center gap-1 px-3 py-1 bg-emerald-500 text-white text-xs font-medium rounded-full">
+                <Star className="w-3 h-3" fill="white" />
+                Recommended
+              </span>
+            </div>
+
+            <h3 className="text-2xl font-semibold text-[#1b0c25] mb-2 mt-2">{PLANS.PREMIUM.name}</h3>
+            <p className="text-sm text-gray-600 mb-6">{PLANS.PREMIUM.description}</p>
+            
+            <div className="mb-2">
+              <span className="text-5xl font-semibold text-[#1b0c25]">
+                {getPrice(PLANS.PREMIUM).total}€
+              </span>
+              <span className="text-gray-500 ml-1">/{selectedDuration} month{selectedDuration > 1 ? "s" : ""}</span>
+            </div>
+            <p className="text-sm text-emerald-600 mb-6">
+              {getPrice(PLANS.PREMIUM).perMonth.toFixed(2)}€/month • Save {getPrice(PLANS.PREMIUM).savings}%
+            </p>
+
+            <Link href={`${APP_URL}/pricing?plan=PREMIUM&duration=${selectedDuration}`} target="_blank" className="w-full mb-4">
+              <Button className="w-full h-12 bg-emerald-500 hover:bg-emerald-600 text-white">
+                {PLANS.PREMIUM.buttonText}
+              </Button>
+            </Link>
+
+            <div className="flex items-center gap-2 mb-6 text-sm text-emerald-600">
+              <Gift className="w-4 h-4" />
+              <span>{PLANS.PREMIUM.trial}</span>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              {PLANS.PREMIUM.features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <Check className="w-5 h-5 text-emerald-500" />
+                  <span className="text-sm text-[#1b0c25]">{feature.text}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
       </Container>
     </div>
   );
